@@ -745,13 +745,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load custom videos from localStorage OR videos.json file
     let customVideos = JSON.parse(localStorage.getItem('customVideos')) || [];
 
-    // Try to load videos from videos.json file
+    // GitHub Gist URL for automatic sync (will be set up)
+    const GIST_URL = 'GIST_URL_HERE'; // Replace with your gist raw URL
+
+    // Try to load videos from GitHub Gist OR videos.json file
     async function loadVideosFromFile() {
         try {
+            // Try Gist first (automatic sync)
+            if (GIST_URL && GIST_URL !== 'GIST_URL_HERE') {
+                const response = await fetch(GIST_URL);
+                if (response.ok) {
+                    const fileVideos = await response.json();
+                    if (fileVideos && fileVideos.length > 0) {
+                        customVideos = fileVideos;
+                        localStorage.setItem('customVideos', JSON.stringify(customVideos));
+                        console.log('Loaded videos from GitHub Gist');
+                        return;
+                    }
+                }
+            }
+
+            // Fallback to videos.json
             const response = await fetch('videos.json');
             if (response.ok) {
                 const fileVideos = await response.json();
-                // Merge with localStorage, prioritizing file videos
                 if (fileVideos && fileVideos.length > 0) {
                     customVideos = fileVideos;
                     localStorage.setItem('customVideos', JSON.stringify(customVideos));
@@ -759,7 +776,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         } catch (error) {
-            console.log('No videos.json file found, using localStorage only');
+            console.log('Using localStorage only');
         }
     }
 
