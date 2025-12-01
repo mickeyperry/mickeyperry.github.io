@@ -2,30 +2,37 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Custom cursor removed - was distracting
 
-    // Intersection Observer for fade-in animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+    // Intersection Observer for fade-in animations - DISABLED ON MOBILE
+    const isMobileDevice = window.innerWidth <= 768;
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
+    if (!isMobileDevice) {
+        // Only run animations on desktop
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('fade-in');
+            observer.observe(section);
         });
-    }, observerOptions);
+    }
 
-    // Observe all sections
-    document.querySelectorAll('section').forEach(section => {
-        section.classList.add('fade-in');
-        observer.observe(section);
-    });
-
-    // Observe project cards
-    document.querySelectorAll('.project-card').forEach(card => {
-        observer.observe(card);
-    });
+    // Observe project cards - also only on desktop
+    if (!isMobileDevice && typeof observer !== 'undefined') {
+        document.querySelectorAll('.project-card').forEach(card => {
+            observer.observe(card);
+        });
+    }
 
     // Navbar scroll effect
     let lastScroll = 0;
