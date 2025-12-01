@@ -50,15 +50,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalIframe = document.getElementById('modal-iframe');
     const closeModal = document.querySelector('.close-modal');
 
-    // Hero reel click handler - open in modal
+    // Hero reel click handler - open in modal on desktop, inline on mobile
     const heroReel = document.getElementById('hero-reel');
     if (heroReel) {
         heroReel.addEventListener('click', () => {
             const videoId = heroReel.getAttribute('data-video-id');
             if (videoId) {
-                modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+                const isMobile = window.innerWidth <= 768;
+
+                if (isMobile) {
+                    // Mobile: Replace thumbnail with embedded iframe directly
+                    const iframe = document.createElement('iframe');
+                    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&playsinline=1`;
+                    iframe.style.position = 'absolute';
+                    iframe.style.top = '0';
+                    iframe.style.left = '0';
+                    iframe.style.width = '100%';
+                    iframe.style.height = '100%';
+                    iframe.frameBorder = '0';
+                    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                    iframe.allowFullscreen = true;
+
+                    // Clear container and add iframe
+                    heroReel.innerHTML = '';
+                    heroReel.appendChild(iframe);
+                    heroReel.style.cursor = 'default';
+                } else {
+                    // Desktop: Open modal as before
+                    modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
             }
         });
     }
