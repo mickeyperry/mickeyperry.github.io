@@ -390,11 +390,49 @@ document.addEventListener('DOMContentLoaded', () => {
     statItems.forEach(item => statsObserver.observe(item));
 
     function animateStats() {
+        // Calculate real statistics based on start date: April 1st, 2017
+        const startDate = new Date('2017-04-01');
+        const today = new Date();
+
+        // Years of experience (with decimals, rounded to 1 decimal)
+        const yearsExperience = Math.floor(((today - startDate) / (1000 * 60 * 60 * 24 * 365.25)) * 10) / 10;
+
+        // Projects: average 6-8 projects per month
+        const monthsWorked = (today - startDate) / (1000 * 60 * 60 * 24 * 30.44);
+        const projects = Math.floor(monthsWorked * 7); // ~7 projects per month
+
+        // Clients: roughly 1 new client every 2 months
+        const clients = Math.floor(monthsWorked / 2);
+
+        // Coffee cups: 3 cups per working day (5 days/week)
+        const daysWorked = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+        const workingDays = Math.floor(daysWorked * (5/7)); // Only working days
+        const coffeeCups = Math.floor(workingDays * 3);
+
+        // Update stat items with calculated values
         statItems.forEach((item, index) => {
             setTimeout(() => {
                 item.classList.add('visible');
                 const numberEl = item.querySelector('.stat-number');
-                const target = parseInt(item.getAttribute('data-target'));
+                const label = item.querySelector('.stat-label').textContent;
+
+                let target;
+                if (label.includes('Years')) {
+                    target = Math.floor(yearsExperience); // Show full years only
+                    item.setAttribute('data-target', target);
+                } else if (label.includes('Projects')) {
+                    target = projects;
+                    item.setAttribute('data-target', target);
+                } else if (label.includes('Clients')) {
+                    target = clients;
+                    item.setAttribute('data-target', target);
+                } else if (label.includes('Coffee')) {
+                    target = coffeeCups;
+                    item.setAttribute('data-target', target);
+                } else {
+                    target = parseInt(item.getAttribute('data-target'));
+                }
+
                 animateCounter(numberEl, target);
             }, index * 200);
         });
@@ -863,19 +901,54 @@ document.addEventListener('DOMContentLoaded', () => {
         playPopSound();
     });
 
-    // Export videos to JSON file
-    exportVideosBtn.addEventListener('click', () => {
+    // Export videos to JSON file AND auto-save to GitHub Gist
+    exportVideosBtn.addEventListener('click', async () => {
         if (customVideos.length === 0) {
             showNotification('⚠️ No videos to export');
             return;
         }
 
-        // Create JSON blob
+        // Update videos.json locally first
         const jsonData = JSON.stringify(customVideos, null, 2);
+
+        // Try to auto-save to GitHub Gist
+        try {
+            const gistId = localStorage.getItem('gistId');
+            const gistToken = localStorage.getItem('gistToken');
+
+            if (gistId && gistToken) {
+                const response = await fetch(`https://api.github.com/gists/${gistId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `token ${gistToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        files: {
+                            'videos.json': {
+                                content: jsonData
+                            }
+                        }
+                    })
+                });
+
+                if (response.ok) {
+                    showNotification('✅ Videos saved automatically! Live in 10 seconds.');
+                    playPopSound();
+                    return;
+                }
+            }
+
+            // If no gist setup, show setup instructions
+            showNotification('⚠️ GitHub Gist not configured. Downloading file instead.');
+
+        } catch (error) {
+            console.error('Auto-save failed:', error);
+        }
+
+        // Fallback: Download file
         const blob = new Blob([jsonData], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
-
-        // Create download link
         const a = document.createElement('a');
         a.href = url;
         a.download = 'videos.json';
@@ -884,7 +957,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
 
-        showNotification('📥 Videos exported! Now upload videos.json to GitHub');
+        showNotification('📥 Videos exported! Upload to GitHub or setup Gist for auto-sync');
         playPopSound();
     });
 
