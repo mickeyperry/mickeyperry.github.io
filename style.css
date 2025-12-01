@@ -1354,16 +1354,38 @@ footer {
     }
 
     /* Ensure video thumbnails display on mobile */
+    .project-image {
+        min-height: 200px;
+        background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    }
+
     .project-image img {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
-        min-height: 180px;
-        background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
     }
 
     .project-card {
         min-height: 280px;
+    }
+
+    /* Radio player - show on mobile */
+    .mini-player {
+        display: flex !important;
+        position: fixed;
+        bottom: 80px;
+        right: 10px;
+        left: 10px;
+        width: auto;
+        z-index: 998;
+        flex-direction: column;
+        gap: 0.5rem;
     }
 }
 
