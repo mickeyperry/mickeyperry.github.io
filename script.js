@@ -85,19 +85,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Fix thumbnails for unlisted videos - add error handling
+    // Fix thumbnails for unlisted videos - add error handling with multiple fallbacks
     document.querySelectorAll('.project-image img').forEach(img => {
+        // Force immediate load
+        img.loading = 'eager';
+        img.decoding = 'sync';
+
         img.addEventListener('error', function() {
-            // If thumbnail fails to load, try different quality
-            if (this.src.includes('mqdefault')) {
-                this.src = this.src.replace('mqdefault', '0');
+            console.log('Thumbnail failed to load:', this.src);
+            // Try multiple fallback sizes
+            if (this.src.includes('hqdefault')) {
+                this.src = this.src.replace('hqdefault', 'mqdefault');
+            } else if (this.src.includes('mqdefault')) {
+                this.src = this.src.replace('mqdefault', 'sddefault');
+            } else if (this.src.includes('sddefault')) {
+                this.src = this.src.replace('sddefault', '0');
             } else if (this.src.includes('/0.jpg')) {
                 this.src = this.src.replace('/0.jpg', '/default.jpg');
             } else {
-                // Last fallback - hide image, show gradient background with play button
-                this.classList.add('hidden');
+                // Last fallback - show gradient only
+                this.style.display = 'none';
             }
         });
+
+        // Also try to force load on mobile
+        if (window.innerWidth <= 768) {
+            img.style.display = 'block';
+            img.style.visibility = 'visible';
+            img.style.opacity = '1';
+        }
     });
 
     // Ripple effect function
