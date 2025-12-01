@@ -405,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Smooth Reveal Animations on Scroll
+    // Smooth Reveal Animations on Scroll - FIXED: Don't hide on mobile
     const revealElements = document.querySelectorAll('.project-card, .about-content, .section-title');
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -414,13 +414,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 entry.target.style.transform = 'translateY(0)';
             }
         });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.05 }); // Lower threshold for mobile
+
+    // Only apply fade-in animation on desktop, not mobile (prevents thumbnail hiding)
+    const isMobile = window.innerWidth <= 768;
 
     revealElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        revealObserver.observe(el);
+        if (!isMobile) {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            revealObserver.observe(el);
+        } else {
+            // Mobile: Just show immediately, no fade animation
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+        }
     });
 
     // Animated Stats Counter
