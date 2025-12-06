@@ -1420,10 +1420,10 @@ footer {
     /* Radio player - collapsible side panel on mobile */
     .mini-player {
         position: fixed;
-        right: -320px;
+        right: -240px;
         top: 50%;
         transform: translateY(-50%);
-        width: 280px;
+        width: 220px;
         z-index: 999;
         transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         flex-direction: column;
@@ -1484,10 +1484,10 @@ footer {
     }
 
     .player-radio-name {
-        font-size: 0.7rem;
-        width: 100%;
-        text-align: center;
-        margin-bottom: 0.5rem;
+        font-size: 0.55rem;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        padding: 0.1rem;
     }
 
     .player-display {
@@ -1498,6 +1498,7 @@ footer {
     .player-buttons {
         width: 100%;
         justify-content: center;
+        gap: 1rem;
     }
 }
 
