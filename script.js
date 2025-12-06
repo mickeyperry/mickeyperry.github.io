@@ -953,18 +953,31 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCustomVideos();
     });
 
-    // Admin password (you can change this)
-    const ADMIN_PASSWORD = 'mickey2025';
+    // Admin password hash (SHA-256 of your password)
+    // To change password: run in console: await hashPassword('yourNewPassword')
+    const ADMIN_PASSWORD_HASH = '5fc2482af9db782afc95c7d7ee76128aad20bd7e0f0ba3c996ec7d81f151e533';
     let isAuthenticated = sessionStorage.getItem('adminAuth') === 'true';
 
+    // Hash password using SHA-256
+    async function hashPassword(password) {
+        const msgBuffer = new TextEncoder().encode(password);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return hashHex;
+    }
+
     // Open admin panel with password check
-    adminToggle.addEventListener('click', () => {
+    adminToggle.addEventListener('click', async () => {
         console.log('Admin button clicked'); // Debug log
 
         // Check if already authenticated in this session
         if (!isAuthenticated) {
             const password = prompt('Enter admin password:');
-            if (password !== ADMIN_PASSWORD) {
+            if (!password) return;
+
+            const passwordHash = await hashPassword(password);
+            if (passwordHash !== ADMIN_PASSWORD_HASH) {
                 showNotification('❌ Incorrect password');
                 return;
             }
