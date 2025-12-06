@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Setup - GitHub Gist Configuration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .status {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .status.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .helper-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .instructions h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        .instructions a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .instructions a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .back-link a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚙️ Portfolio Setup</h1>
+        <p class="subtitle">Configure GitHub Gist for cross-device editing</p>
+
+        <div id="statusMessage"></div>
+
+        <form id="setupForm">
+            <div class="form-group">
+                <label for="gistId">Gist ID</label>
+                <input
+                    type="text"
+                    id="gistId"
+                    placeholder="4a55db213bfab3ce2b210f0e16341524"
+                    value="4a55db213bfab3ce2b210f0e16341524"
+                >
+                <p class="helper-text">This is already pre-filled with your Gist ID</p>
+            </div>
+
+            <div class="form-group">
+                <label for="gistToken">GitHub Personal Access Token</label>
+                <input
+                    type="password"
+                    id="gistToken"
+                    placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+                >
+                <p class="helper-text">Paste your GitHub token here (needs "gist" permission)</p>
+            </div>
+
+            <button type="submit" class="btn">💾 Save Configuration</button>
+            <button type="button" class="btn btn-secondary" onclick="checkStatus()">🔍 Check Current Status</button>
+            <button type="button" class="btn btn-clear" onclick="clearConfig()">🗑️ Clear Configuration</button>
+        </form>
+
+        <div class="instructions">
+            <h3>📝 How to get a GitHub Token:</h3>
+            <ol>
+                <li>Go to <a href="https://github.com/settings/tokens" target="_blank">GitHub Settings → Tokens</a></li>
+                <li>Click "Generate new token" → "Classic"</li>
+                <li>Give it a name (e.g., "Portfolio Admin")</li>
+                <li>Check only the <strong>gist</strong> permission</li>
+                <li>Click "Generate token" and copy it</li>
+                <li>Paste it above and click Save</li>
+            </ol>
+        </div>
+
+        <div class="back-link">
+            <a href="index.html">← Back to Portfolio</a>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('setupForm');
+        const statusMessage = document.getElementById('statusMessage');
+        const gistIdInput = document.getElementById('gistId');
+        const gistTokenInput = document.getElementById('gistToken');
+
+        // Check status on load
+        window.addEventListener('DOMContentLoaded', checkStatus);
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const gistId = gistIdInput.value.trim();
+            const gistToken = gistTokenInput.value.trim();
+
+            if (!gistId || !gistToken) {
+                showStatus('warning', '⚠️ Please fill in both fields');
+                return;
+            }
+
+            // Save to localStorage
+            localStorage.setItem('gistId', gistId);
+            localStorage.setItem('gistToken', gistToken);
+
+            showStatus('success', '✅ Configuration saved successfully! You can now edit from any device.');
+
+            // Clear the token input for security
+            gistTokenInput.value = '';
+
+            // Vibrate on success (mobile)
+            if (navigator.vibrate) {
+                navigator.vibrate(200);
+            }
+        });
+
+        function checkStatus() {
+            const gistId = localStorage.getItem('gistId');
+            const gistToken = localStorage.getItem('gistToken');
+
+            if (gistId && gistToken) {
+                showStatus('success', `✅ Configuration is set up!<br><small>Gist ID: ${gistId}<br>Token: ${gistToken.substring(0, 10)}...</small>`);
+            } else if (gistId && !gistToken) {
+                showStatus('warning', '⚠️ Gist ID is set, but token is missing');
+            } else if (!gistId && gistToken) {
+                showStatus('warning', '⚠️ Token is set, but Gist ID is missing');
+            } else {
+                showStatus('info', 'ℹ️ No configuration found. Please set up your GitHub token.');
+            }
+        }
+
+        function clearConfig() {
+            if (confirm('Are you sure you want to clear the configuration?')) {
+                localStorage.removeItem('gistId');
+                localStorage.removeItem('gistToken');
+                gistIdInput.value = '4a55db213bfab3ce2b210f0e16341524';
+                gistTokenInput.value = '';
+                showStatus('info', 'ℹ️ Configuration cleared');
+
+                if (navigator.vibrate) {
+                    navigator.vibrate([100, 50, 100]);
+                }
+            }
+        }
+
+        function showStatus(type, message) {
+            statusMessage.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+    </script>
+</body>
+</html>
