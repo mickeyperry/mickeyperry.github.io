@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Hero reel click handler - open in modal on desktop, inline on mobile
+    // Hero reel click handler - play inline (both mobile and desktop)
     const heroReel = document.getElementById('hero-reel');
     if (heroReel) {
         heroReel.addEventListener('click', () => {
@@ -91,19 +91,26 @@ document.addEventListener('DOMContentLoaded', () => {
             if (videoId) {
                 const isMobile = window.innerWidth <= 768;
 
+                // Create iframe for inline playback
+                const iframe = document.createElement('iframe');
                 if (isMobile) {
-                    // Mobile: Open in modal with enhanced params to prevent app redirect
-                    updateVideoInfo(videoId);
-                    modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&playsinline=1&modestbranding=1&fs=0&controls=1&enablejsapi=1&origin=${window.location.origin}`;
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
+                    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&playsinline=1&modestbranding=1&controls=1`;
                 } else {
-                    // Desktop: Open modal as before
-                    updateVideoInfo(videoId);
-                    modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
+                    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
                 }
+                iframe.frameBorder = '0';
+                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                iframe.allowFullscreen = true;
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.position = 'absolute';
+                iframe.style.top = '0';
+                iframe.style.left = '0';
+
+                // Replace thumbnail with iframe
+                heroReel.innerHTML = '';
+                heroReel.appendChild(iframe);
+                heroReel.style.cursor = 'default';
             }
         });
     }
@@ -192,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => {
                         updateVideoInfo(videoId);
                         // Enhanced parameters for Firefox and other mobile browsers
-                        modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&playsinline=1&modestbranding=1&fs=0&controls=1&enablejsapi=1&origin=${window.location.origin}`;
+                        modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&playsinline=1&modestbranding=1&controls=1&enablejsapi=1&origin=${window.location.origin}`;
                         modal.classList.add('active');
                         document.body.style.overflow = 'hidden';
                     }, 100);
@@ -589,13 +596,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Create hidden iframe for SoundCloud widget
         const iframe = document.createElement('iframe');
         iframe.id = 'sc-widget';
-        iframe.width = '0';
-        iframe.height = '0';
+        iframe.width = '100%';
+        iframe.height = '166';
         iframe.scrolling = 'no';
         iframe.frameborder = 'no';
         iframe.allow = 'autoplay';
-        // Your private SoundCloud playlist
-        iframe.src = 'https://w.soundcloud.com/player/?url=https%3A//on.soundcloud.com/gmdzJXQ28cU0Sunvpy&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=false';
+        // PAFU.FM SoundCloud playlist
+        iframe.src = 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/pafu/sets/pafuweb&color=%23ff006e&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_artwork=false&visual=false&buying=false&sharing=false&download=false';
         iframe.style.display = 'none';
         document.body.appendChild(iframe);
 
@@ -1266,7 +1273,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     updateVideoInfo(videoId);
                     if (isMobile) {
-                        modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&playsinline=1&modestbranding=1&fs=0&controls=1&enablejsapi=1&origin=${window.location.origin}`;
+                        modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&playsinline=1&modestbranding=1&controls=1&enablejsapi=1&origin=${window.location.origin}`;
                     } else {
                         modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
                     }
