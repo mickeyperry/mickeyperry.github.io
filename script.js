@@ -70,17 +70,23 @@ document.addEventListener('DOMContentLoaded', () => {
             // Show info panel with video data
             infoTitle.textContent = video.name || 'Untitled Video';
 
-            // Combine category, role, and description into one paragraph
-            const parts = [];
-            if (video.category) parts.push(`Category: ${video.category}`);
-            if (video.role) parts.push(`Role: ${video.role}`);
-            if (video.description) parts.push(video.description);
+            // Build HTML with bold category and role, separated by lines
+            let html = '';
+            if (video.category) html += `<strong>Category:</strong> ${video.category}`;
+            if (video.role) {
+                if (html) html += ' | ';
+                html += `<strong>Role:</strong> ${video.role}`;
+            }
+            if (video.description) {
+                if (html) html += '<br><br>';
+                html += video.description;
+            }
 
-            infoText.textContent = parts.join(' • ');
+            infoText.innerHTML = html;
         } else {
             // Hide or show default info for hardcoded videos
             infoTitle.textContent = 'Featured Work';
-            infoText.textContent = 'Motion Designer & Animator';
+            infoText.innerHTML = '<strong>Role:</strong> Motion Designer & Animator';
         }
     }
 
