@@ -59,9 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Info panel elements
     const infoTitle = document.getElementById('infoTitle');
-    const infoCategory = document.getElementById('infoCategory');
-    const infoRole = document.getElementById('infoRole');
-    const infoDescription = document.getElementById('infoDescription');
+    const infoText = document.getElementById('infoText');
 
     // Function to update video info panel
     function updateVideoInfo(videoId) {
@@ -71,15 +69,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (video && video.name) {
             // Show info panel with video data
             infoTitle.textContent = video.name || 'Untitled Video';
-            infoCategory.textContent = video.category || '—';
-            infoRole.textContent = video.role || '—';
-            infoDescription.textContent = video.description || '';
+
+            // Combine category, role, and description into one paragraph
+            const parts = [];
+            if (video.category) parts.push(`Category: ${video.category}`);
+            if (video.role) parts.push(`Role: ${video.role}`);
+            if (video.description) parts.push(video.description);
+
+            infoText.textContent = parts.join(' • ');
         } else {
             // Hide or show default info for hardcoded videos
             infoTitle.textContent = 'Featured Work';
-            infoCategory.textContent = '—';
-            infoRole.textContent = 'Motion Designer & Animator';
-            infoDescription.textContent = '';
+            infoText.textContent = 'Motion Designer & Animator';
         }
     }
 
