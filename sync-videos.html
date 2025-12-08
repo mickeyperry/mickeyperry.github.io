@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sync Videos to Gist</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .status {
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .status.loading {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffeaa7;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .video-count {
+            font-size: 48px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 Sync Videos to Gist</h1>
+        <div id="status" class="status loading">
+            <div class="spinner"></div>
+            <p>Loading videos and syncing to Gist...</p>
+        </div>
+    </div>
+
+    <script>
+        const statusDiv = document.getElementById('status');
+
+        async function syncVideos() {
+            try {
+                // Step 1: Load videos.json
+                statusDiv.innerHTML = '<div class="spinner"></div><p>📥 Loading videos from videos.json...</p>';
+                const response = await fetch('https://mickeyperry.github.io/videos.json');
+                const videos = await response.json();
+
+                // Step 2: Save to localStorage
+                localStorage.setItem('customVideos', JSON.stringify(videos));
+                statusDiv.innerHTML = `<div class="spinner"></div><p>💾 Loaded <span class="video-count">${videos.length}</span> videos to localStorage!</p>`;
+
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                // Step 3: Get Gist credentials
+                const gistId = localStorage.getItem('gistId');
+                const gistToken = localStorage.getItem('gistToken');
+
+                if (!gistId || !gistToken) {
+                    statusDiv.className = 'status error';
+                    statusDiv.innerHTML = `
+                        <h2>❌ Missing Gist Credentials</h2>
+                        <p>Please run setup first to configure your GitHub token.</p>
+                        <a href="setup.html" class="btn">Go to Setup</a>
+                    `;
+                    return;
+                }
+
+                // Step 4: Sync to Gist
+                statusDiv.innerHTML = '<div class="spinner"></div><p>☁️ Syncing to GitHub Gist...</p>';
+
+                const gistResponse = await fetch(`https://api.github.com/gists/${gistId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `token ${gistToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        files: {
+                            'videos.json': {
+                                content: JSON.stringify(videos, null, 2)
+                            }
+                        }
+                    })
+                });
+
+                if (!gistResponse.ok) {
+                    throw new Error('Failed to update Gist. Check your token permissions.');
+                }
+
+                // Success!
+                statusDiv.className = 'status success';
+                statusDiv.innerHTML = `
+                    <h2>✅ Success!</h2>
+                    <p>All <span class="video-count">${videos.length}</span> videos have been synced!</p>
+                    <p>✓ Saved to localStorage<br>
+                    ✓ Synced to GitHub Gist<br>
+                    ✓ Ready to edit in admin panel</p>
+                    <a href="index.html" class="btn">Go to Portfolio</a>
+                `;
+
+                // Play success sound if possible
+                if (navigator.vibrate) {
+                    navigator.vibrate([200, 100, 200]);
+                }
+
+            } catch (error) {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = `
+                    <h2>❌ Error</h2>
+                    <p>${error.message}</p>
+                    <p>Please check your setup and try again.</p>
+                    <a href="setup.html" class="btn">Go to Setup</a>
+                `;
+            }
+        }
+
+        // Run automatically on page load
+        syncVideos();
+    </script>
+</body>
+</html>
