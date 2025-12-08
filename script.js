@@ -70,11 +70,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Show info panel with video data
             infoTitle.textContent = video.name || 'Untitled Video';
 
-            // Build HTML with bold category and role, separated by lines
+            // Build HTML with bold category and role on separate lines
             let html = '';
             if (video.category) html += `<strong>Category:</strong> ${video.category}`;
             if (video.role) {
-                if (html) html += ' | ';
+                if (html) html += '<br>';
                 html += `<strong>Role:</strong> ${video.role}`;
             }
             if (video.description) {
