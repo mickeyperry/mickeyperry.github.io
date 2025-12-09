@@ -2000,6 +2000,19 @@ body.shaking {
     background: rgba(255, 255, 255, 0.03);
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: grab;
+    user-select: none;
+    transition: all 0.2s ease;
+}
+
+.video-item:active {
+    cursor: grabbing;
+}
+
+.video-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--accent-pink);
+    transform: translateX(5px);
 }
 
 .video-item-info {
