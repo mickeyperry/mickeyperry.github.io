@@ -1264,26 +1264,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
             item.addEventListener('drop', (e) => {
                 e.preventDefault();
-                const dropIndex = parseInt(item.getAttribute('data-index'));
 
-                if (draggedIndex !== dropIndex) {
-                    // Reorder the array
-                    const [removed] = customVideos.splice(draggedIndex, 1);
-                    const newIndex = parseInt(draggedItem.nextElementSibling?.getAttribute('data-index') || customVideos.length);
+                // Rebuild customVideos array from current DOM order
+                const newOrder = [];
+                const items = videoListContainer.querySelectorAll('.video-item');
 
-                    // Find correct position in array
-                    const visualIndex = Array.from(videoListContainer.children).indexOf(draggedItem);
-                    customVideos.splice(visualIndex, 0, removed);
+                items.forEach(domItem => {
+                    const videoId = domItem.getAttribute('data-video-id');
+                    const video = customVideos.find(v => v.id === videoId);
+                    if (video) {
+                        newOrder.push(video);
+                    }
+                });
 
-                    // Save to localStorage
-                    localStorage.setItem('customVideos', JSON.stringify(customVideos));
+                // Update the array
+                customVideos.length = 0;
+                customVideos.push(...newOrder);
 
-                    // Re-render
-                    renderVideoList();
-                    renderCustomVideos();
+                // Save to localStorage
+                localStorage.setItem('customVideos', JSON.stringify(customVideos));
 
-                    showNotification('✅ Order updated! Click "Export & Sync" to save.');
-                }
+                // Re-render
+                renderVideoList();
+                renderCustomVideos();
+
+                showNotification('✅ Order updated! Click "Export & Sync" to save.');
             });
         });
     }
