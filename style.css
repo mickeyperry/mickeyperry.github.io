@@ -565,7 +565,7 @@ body {
 .video-container:hover .play-overlay-large {
     background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
     border-color: transparent;
-    transform: translate(-50%, -50%) scale(1.15) rotate(90deg);
+    transform: translate(-50%, -50%) scale(1.15);
     box-shadow:
         0 15px 60px rgba(0, 0, 0, 0.6),
         0 0 60px var(--glow-pink),
@@ -1237,7 +1237,7 @@ body {
     background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
     border-color: transparent;
     color: #fff;
-    transform: translate(-50%, -50%) scale(1.2) rotate(90deg);
+    transform: translate(-50%, -50%) scale(1.2);
     box-shadow:
         0 8px 30px rgba(0, 0, 0, 0.5),
         0 0 40px var(--glow-pink),
