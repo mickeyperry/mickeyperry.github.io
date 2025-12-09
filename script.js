@@ -1213,10 +1213,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        videoListContainer.innerHTML = customVideos.map(video => `
-            <div class="video-item">
+        videoListContainer.innerHTML = customVideos.map((video, index) => `
+            <div class="video-item" draggable="true" data-index="${index}" data-video-id="${video.id}">
                 <div class="video-item-info">
-                    <strong>${video.name || video.category || 'Untitled'}</strong>
+                    <strong>📋 ${video.name || video.category || 'Untitled'}</strong>
                     <span>Category: ${video.category || '—'}</span>
                     <span>Role: ${video.role || '—'}</span>
                     <span style="font-size: 0.85rem; opacity: 0.7;">ID: ${video.id}</span>
@@ -1227,6 +1227,80 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         `).join('');
+
+        // Add drag and drop event listeners
+        setupDragAndDrop();
+    }
+
+    // Drag and drop functionality
+    function setupDragAndDrop() {
+        const videoItems = videoListContainer.querySelectorAll('.video-item');
+        let draggedItem = null;
+        let draggedIndex = null;
+
+        videoItems.forEach((item, index) => {
+            item.addEventListener('dragstart', (e) => {
+                draggedItem = item;
+                draggedIndex = parseInt(item.getAttribute('data-index'));
+                item.style.opacity = '0.5';
+                e.dataTransfer.effectAllowed = 'move';
+            });
+
+            item.addEventListener('dragend', (e) => {
+                item.style.opacity = '1';
+            });
+
+            item.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+
+                const afterElement = getDragAfterElement(videoListContainer, e.clientY);
+                if (afterElement == null) {
+                    videoListContainer.appendChild(draggedItem);
+                } else {
+                    videoListContainer.insertBefore(draggedItem, afterElement);
+                }
+            });
+
+            item.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const dropIndex = parseInt(item.getAttribute('data-index'));
+
+                if (draggedIndex !== dropIndex) {
+                    // Reorder the array
+                    const [removed] = customVideos.splice(draggedIndex, 1);
+                    const newIndex = parseInt(draggedItem.nextElementSibling?.getAttribute('data-index') || customVideos.length);
+
+                    // Find correct position in array
+                    const visualIndex = Array.from(videoListContainer.children).indexOf(draggedItem);
+                    customVideos.splice(visualIndex, 0, removed);
+
+                    // Save to localStorage
+                    localStorage.setItem('customVideos', JSON.stringify(customVideos));
+
+                    // Re-render
+                    renderVideoList();
+                    renderCustomVideos();
+
+                    showNotification('✅ Order updated! Click "Export & Sync" to save.');
+                }
+            });
+        });
+    }
+
+    function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('.video-item:not(.dragging)')];
+
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
     }
 
     // Make functions globally accessible
