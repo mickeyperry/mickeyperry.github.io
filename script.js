@@ -907,6 +907,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Logo click - play success sound (After Effects render success sound!)
+    const logoImage = document.getElementById('logoImage');
+    if (logoImage) {
+        logoImage.addEventListener('click', () => {
+            const successSound = new Audio('rnd_okay.wav');
+            successSound.volume = 0.6;
+            successSound.play().catch(err => console.log('Audio play failed:', err));
+
+            showNotification('✅ RENDER SUCCESSFUL! ✅');
+        });
+    }
+
     // ============================================
     // VIDEO MANAGEMENT SYSTEM
     // ============================================
