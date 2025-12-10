@@ -721,18 +721,18 @@ document.addEventListener('DOMContentLoaded', () => {
         '🎪', '🏆', '💎', '🎯', '👾'
     ];
 
-    // Software icons for avatar explosion - actual icon URLs
+    // Software icons for avatar explosion - local icon files
     const softwareIcons = [
-        { url: 'https://cdn.simpleicons.org/adobeaftereffects/9999FF', name: 'After Effects' },
-        { url: 'https://cdn.simpleicons.org/adobephotoshop/31A8FF', name: 'Photoshop' },
-        { url: 'https://cdn.simpleicons.org/blender/EA7600', name: 'Blender' },
-        { url: 'https://cdn.simpleicons.org/autohotkey/334455', name: 'AutoHotkey' },
-        { url: 'https://cdn.simpleicons.org/anthropic/CC9B7A', name: 'Claude' },
-        { url: 'https://cdn.simpleicons.org/affinityphoto/7E4DD2', name: 'Affinity Photo' },
-        { url: 'https://cdn.simpleicons.org/affinitydesigner/1B72BE', name: 'Affinity Designer' },
+        { url: 'ae.png', name: 'After Effects' },
+        { url: 'ps.png', name: 'Photoshop' },
+        { url: 'blender.png', name: 'Blender' },
+        { url: 'https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/autohotkey.svg', name: 'AutoHotkey' },
+        { url: 'https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/anthropic.svg', name: 'Claude' },
+        { url: 'https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/affinityphoto.svg', name: 'Affinity Photo' },
+        { url: 'https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/affinitydesigner.svg', name: 'Affinity Designer' },
         { url: 'https://www.voidtools.com/favicon.ico', name: 'Everything' },
         { url: 'https://www.image-line.com/fl-studio/favicon.ico', name: 'FL Studio' },
-        { url: 'https://cdn.simpleicons.org/runway/00D4AA', name: 'Runway' }
+        { url: 'https://avatars.githubusercontent.com/u/84923316', name: 'Runway' }
     ];
 
     function createParticleExplosion(x, y) {
@@ -827,11 +827,11 @@ document.addEventListener('DOMContentLoaded', () => {
             particle.className = 'software-icon-particle';
             particle.src = icon.url;
             particle.alt = icon.name;
-            particle.style.width = '40px';
-            particle.style.height = '40px';
+            particle.style.width = '48px';
+            particle.style.height = '48px';
             particle.style.position = 'fixed';
             particle.style.pointerEvents = 'none';
-            particle.style.zIndex = '10000';
+            particle.style.zIndex = '1'; // Behind avatar but visible
             particle.style.userSelect = 'none';
 
             document.body.appendChild(particle);
