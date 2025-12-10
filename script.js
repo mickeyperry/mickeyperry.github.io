@@ -721,20 +721,6 @@ document.addEventListener('DOMContentLoaded', () => {
         '🎪', '🏆', '💎', '🎯', '👾'
     ];
 
-    // Software icons for avatar explosion - local icon files
-    const softwareIcons = [
-        { url: 'ae.png', name: 'After Effects' },
-        { url: 'ps.png', name: 'Photoshop' },
-        { url: 'blender.png', name: 'Blender' },
-        { url: 'https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/autohotkey.svg', name: 'AutoHotkey' },
-        { url: 'https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/anthropic.svg', name: 'Claude' },
-        { url: 'https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/affinityphoto.svg', name: 'Affinity Photo' },
-        { url: 'https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/affinitydesigner.svg', name: 'Affinity Designer' },
-        { url: 'https://www.voidtools.com/favicon.ico', name: 'Everything' },
-        { url: 'https://www.image-line.com/fl-studio/favicon.ico', name: 'FL Studio' },
-        { url: 'https://avatars.githubusercontent.com/u/84923316', name: 'Runway' }
-    ];
-
     function createParticleExplosion(x, y) {
         const particleCount = 40;
         const gravity = 0.3;
@@ -746,93 +732,6 @@ document.addEventListener('DOMContentLoaded', () => {
             particle.className = 'particle';
             particle.textContent = movieEmojis[Math.floor(Math.random() * movieEmojis.length)];
             particle.style.fontSize = (28 + Math.random() * 28) + 'px';
-
-            document.body.appendChild(particle);
-
-            // Initial velocity - burst outward and upward
-            const angle = (Math.PI * 2 * i) / particleCount + (Math.random() - 0.5) * 0.5;
-            const power = 8 + Math.random() * 12;
-            let vx = Math.cos(angle) * power;
-            let vy = Math.sin(angle) * power - (8 + Math.random() * 6); // Upward bias
-            let rotation = 0;
-            let rotationSpeed = (Math.random() - 0.5) * 15;
-
-            let posX = x;
-            let posY = y;
-            let opacity = 1;
-            let scale = 0.5;
-
-            const startTime = performance.now();
-
-            function animate(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = elapsed / duration;
-
-                if (progress >= 1) {
-                    particle.remove();
-                    return;
-                }
-
-                // Apply physics
-                vy += gravity;
-                vx *= friction;
-                vy *= friction;
-
-                posX += vx;
-                posY += vy;
-                rotation += rotationSpeed;
-                rotationSpeed *= 0.98;
-
-                // Scale: pop up quickly, then settle
-                if (progress < 0.1) {
-                    scale = 0.5 + (progress / 0.1) * 0.7; // Scale up to 1.2
-                } else if (progress < 0.2) {
-                    scale = 1.2 - ((progress - 0.1) / 0.1) * 0.2; // Settle to 1.0
-                } else {
-                    scale = 1;
-                }
-
-                // Fade out in the last 40%
-                if (progress > 0.6) {
-                    opacity = 1 - ((progress - 0.6) / 0.4);
-                }
-
-                particle.style.left = posX + 'px';
-                particle.style.top = posY + 'px';
-                particle.style.transform = `rotate(${rotation}deg) scale(${scale})`;
-                particle.style.opacity = opacity;
-
-                requestAnimationFrame(animate);
-            }
-
-            // Stagger start slightly for organic feel
-            setTimeout(() => {
-                requestAnimationFrame(animate);
-            }, Math.random() * 50);
-        }
-    }
-
-    // Software icon explosion for avatar click - exactly 10 icons, one per software
-    function createSoftwareIconExplosion(x, y) {
-        const particleCount = softwareIcons.length; // Exactly 10 icons
-        const gravity = 0.3;
-        const friction = 0.99;
-        const duration = 3000;
-
-        for (let i = 0; i < particleCount; i++) {
-            const icon = softwareIcons[i]; // Use each icon exactly once
-
-            // Create img element for actual icon
-            const particle = document.createElement('img');
-            particle.className = 'software-icon-particle';
-            particle.src = icon.url;
-            particle.alt = icon.name;
-            particle.style.width = '48px';
-            particle.style.height = '48px';
-            particle.style.position = 'fixed';
-            particle.style.pointerEvents = 'none';
-            particle.style.zIndex = '1'; // Behind avatar but visible
-            particle.style.userSelect = 'none';
 
             document.body.appendChild(particle);
 
@@ -990,30 +889,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Avatar click - play fail sound and software icon explosion!
+    // Avatar click - play fail sound (After Effects render fail sound!)
     const avatarImage = document.getElementById('avatarImage');
     if (avatarImage) {
-        avatarImage.addEventListener('click', (e) => {
+        avatarImage.addEventListener('click', () => {
             const failSound = new Audio('rnd_fail.wav');
             failSound.volume = 0.6;
             failSound.play().catch(err => console.log('Audio play failed:', err));
-
-            // Get avatar position for explosion origin
-            const rect = avatarImage.getBoundingClientRect();
-            const x = rect.left + rect.width / 2;
-            const y = rect.top + rect.height / 2;
-
-            // Create software icon explosion
-            createSoftwareIconExplosion(x, y);
 
             // Add shake animation
             avatarImage.style.animation = 'shake 0.5s';
             setTimeout(() => {
                 avatarImage.style.animation = '';
             }, 500);
-
-            // Shake the screen too
-            shakeScreen();
 
             showNotification('💥 RENDER FAILED! 💥');
         });
