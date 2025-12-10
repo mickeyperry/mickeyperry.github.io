@@ -889,6 +889,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Avatar click - play fail sound (After Effects render fail sound!)
+    const avatarImage = document.getElementById('avatarImage');
+    if (avatarImage) {
+        avatarImage.addEventListener('click', () => {
+            const failSound = new Audio('rnd_fail.wav');
+            failSound.volume = 0.6;
+            failSound.play().catch(err => console.log('Audio play failed:', err));
+
+            // Add shake animation
+            avatarImage.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                avatarImage.style.animation = '';
+            }, 500);
+
+            showNotification('💥 RENDER FAILED! 💥');
+        });
+    }
+
     // ============================================
     // VIDEO MANAGEMENT SYSTEM
     // ============================================
