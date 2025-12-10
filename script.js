@@ -721,18 +721,18 @@ document.addEventListener('DOMContentLoaded', () => {
         '🎪', '🏆', '💎', '🎯', '👾'
     ];
 
-    // Software icons for avatar explosion
+    // Software icons for avatar explosion - actual icon URLs
     const softwareIcons = [
-        { text: 'FL', bg: '#FF7A00', name: 'FL Studio' },
-        { text: 'AE', bg: '#9999FF', name: 'After Effects' },
-        { text: 'Bl', bg: '#EA7600', name: 'Blender' },
-        { text: 'E', bg: '#DC143C', name: 'Everything' },
-        { text: 'AD', bg: '#1B72BE', name: 'Affinity Designer' },
-        { text: 'PS', bg: '#31A8FF', name: 'Photoshop' },
-        { text: 'RW', bg: '#00D4AA', name: 'Runway' },
-        { text: 'AHK', bg: '#6E9F18', name: 'AutoHotkey' },
-        { text: 'Cl', bg: '#CC9B7A', name: 'Claude' },
-        { text: 'AP', bg: '#7E4DD2', name: 'Affinity Photo' }
+        { url: 'https://cdn.simpleicons.org/adobeaftereffects/9999FF', name: 'After Effects' },
+        { url: 'https://cdn.simpleicons.org/adobephotoshop/31A8FF', name: 'Photoshop' },
+        { url: 'https://cdn.simpleicons.org/blender/EA7600', name: 'Blender' },
+        { url: 'https://cdn.simpleicons.org/autohotkey/334455', name: 'AutoHotkey' },
+        { url: 'https://cdn.simpleicons.org/anthropic/CC9B7A', name: 'Claude' },
+        { url: 'https://cdn.simpleicons.org/affinityphoto/7E4DD2', name: 'Affinity Photo' },
+        { url: 'https://cdn.simpleicons.org/affinitydesigner/1B72BE', name: 'Affinity Designer' },
+        { url: 'https://www.voidtools.com/favicon.ico', name: 'Everything' },
+        { url: 'https://www.image-line.com/fl-studio/favicon.ico', name: 'FL Studio' },
+        { url: 'https://cdn.simpleicons.org/runway/00D4AA', name: 'Runway' }
     ];
 
     function createParticleExplosion(x, y) {
@@ -812,27 +812,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Software icon explosion for avatar click
+    // Software icon explosion for avatar click - exactly 10 icons, one per software
     function createSoftwareIconExplosion(x, y) {
-        const particleCount = 30;
+        const particleCount = softwareIcons.length; // Exactly 10 icons
         const gravity = 0.3;
         const friction = 0.99;
         const duration = 3000;
 
         for (let i = 0; i < particleCount; i++) {
-            const icon = softwareIcons[Math.floor(Math.random() * softwareIcons.length)];
+            const icon = softwareIcons[i]; // Use each icon exactly once
 
-            const particle = document.createElement('div');
+            // Create img element for actual icon
+            const particle = document.createElement('img');
             particle.className = 'software-icon-particle';
-            particle.textContent = icon.text;
-            particle.style.backgroundColor = icon.bg;
-            particle.style.color = '#fff';
-            particle.style.fontWeight = 'bold';
-            particle.style.fontSize = '16px';
-            particle.style.padding = '8px 12px';
-            particle.style.borderRadius = '8px';
-            particle.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
-            particle.style.fontFamily = 'monospace';
+            particle.src = icon.url;
+            particle.alt = icon.name;
+            particle.style.width = '40px';
+            particle.style.height = '40px';
             particle.style.position = 'fixed';
             particle.style.pointerEvents = 'none';
             particle.style.zIndex = '10000';
