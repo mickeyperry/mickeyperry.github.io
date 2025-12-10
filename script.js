@@ -1330,6 +1330,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="project-image">
                     <img src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg" alt="${video.name || video.category}" loading="eager">
                     <div class="play-overlay">▶</div>
+                    <div class="category-overlay">${video.category || 'Uncategorized'}</div>
                 </div>
                 <h3>${video.name || video.category}</h3>
             `;
