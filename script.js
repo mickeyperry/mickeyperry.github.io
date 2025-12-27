@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateThemeIcon(theme) {
         if (themeIcon) {
-            themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
+            // Gaming-themed icons instead of moon/sun
+            themeIcon.textContent = theme === 'dark' ? '👾' : '🎮';
         }
     }
 
