@@ -24,21 +24,21 @@
     --glow-cyan: rgba(6, 182, 212, 0.6);
 }
 
-/* Light theme - Sega Master System inspired */
+/* Light theme - Clean Sega Magazine inspired (no pink, cool blues only) */
 [data-theme="light"] {
-    --primary-bg: #f5f5f5;
+    --primary-bg: #f8f9fa;
     --secondary-bg: #ffffff;
-    --accent-pink: #E03C31;
-    --accent-purple: #0066CC;
-    --accent-cyan: #00A8E8;
-    --accent-yellow: #FFD700;
+    --accent-pink: #0066CC;
+    --accent-purple: #0052A3;
+    --accent-cyan: #0088CC;
+    --accent-yellow: #1E88E5;
     --text-primary: #1a1a1a;
-    --text-secondary: #555555;
-    --card-bg: rgba(0, 0, 0, 0.03);
-    --glass-bg: rgba(0, 0, 0, 0.05);
-    --glow-pink: rgba(224, 60, 49, 0.4);
-    --glow-purple: rgba(0, 102, 204, 0.4);
-    --glow-cyan: rgba(0, 168, 232, 0.4);
+    --text-secondary: #4a5568;
+    --card-bg: rgba(0, 0, 0, 0.04);
+    --glass-bg: rgba(0, 0, 0, 0.06);
+    --glow-pink: transparent;
+    --glow-purple: transparent;
+    --glow-cyan: transparent;
 }
 
 /* Custom Cursor - Removed (was distracting) */
@@ -66,7 +66,28 @@ body {
 }
 
 [data-theme="light"] body {
-    background: linear-gradient(135deg, #e8f0f7 0%, #f5f5f5 50%, #ffffff 100%);
+    background: linear-gradient(135deg, #f0f4f8 0%, #ffffff 50%, #fafbfc 100%);
+}
+
+/* Bolder typography for light theme readability */
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] .section-title {
+    font-weight: 700;
+}
+
+[data-theme="light"] p,
+[data-theme="light"] a,
+[data-theme="light"] .nav-links a {
+    font-weight: 500;
+}
+
+/* Dark blue/gray grid for light theme (Sega magazine style) */
+[data-theme="light"] .bg-grid {
+    background-image:
+        linear-gradient(rgba(30, 58, 138, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 58, 138, 0.08) 1px, transparent 1px);
 }
 
 /* Animated background grid */
@@ -247,18 +268,22 @@ body {
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-right: 1rem;
+    margin-left: 1rem;
 }
 
 [data-theme="light"] .theme-toggle {
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 102, 204, 0.2);
+    background: rgba(0, 102, 204, 0.05);
 }
 
 .theme-toggle:hover {
-    background: var(--accent-pink);
-    border-color: var(--accent-pink);
+    background: var(--accent-purple);
+    border-color: var(--accent-purple);
     transform: rotate(15deg) scale(1.1);
-    box-shadow: 0 0 20px var(--glow-pink);
+}
+
+[data-theme="light"] .theme-toggle:hover {
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
 }
 
 .theme-icon {
@@ -415,6 +440,53 @@ body {
     width: 28px;
     height: 28px;
     font-size: 0.7rem;
+}
+
+/* Light Theme Radio Player - Clean Modern Style */
+[data-theme="light"] .mini-player {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95));
+    border: 1.5px solid rgba(0, 102, 204, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .mini-player:hover {
+    border-color: rgba(0, 102, 204, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.15);
+}
+
+[data-theme="light"] .player-radio-name {
+    color: #0066CC;
+    background: rgba(0, 102, 204, 0.08);
+    text-shadow: none;
+}
+
+[data-theme="light"] .player-display {
+    background: #f1f5f9;
+    border: 1.5px solid #cbd5e1;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .player-display::before {
+    background: none;
+}
+
+[data-theme="light"] .marquee-text {
+    color: #1e293b;
+}
+
+[data-theme="light"] .retro-btn {
+    background: linear-gradient(135deg, #0066CC, #0052A3);
+    border: 1px solid rgba(0, 102, 204, 0.3);
+    box-shadow: 0 2px 4px rgba(0, 102, 204, 0.2);
+}
+
+[data-theme="light"] .retro-btn:hover {
+    background: linear-gradient(135deg, #0052A3, #003d7a);
+    box-shadow: 0 4px 8px rgba(0, 102, 204, 0.3);
+}
+
+[data-theme="light"] .retro-btn:active {
+    box-shadow: 0 1px 2px rgba(0, 102, 204, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 /* Radio toggle - hidden on desktop */
@@ -786,6 +858,61 @@ body {
     position: relative;
     overflow: hidden;
     margin-top: 4rem;
+}
+
+/* Light Theme About Section - Subtle Dark Break */
+[data-theme="light"] .about {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .about::before {
+    display: none;
+}
+
+/* Light Theme - Remove ALL glows and use clean blue styling */
+[data-theme="light"] .play-overlay-large {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.9));
+    border: 3px solid rgba(0, 102, 204, 0.3);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    color: #0066CC;
+}
+
+[data-theme="light"] .video-container:hover .play-overlay-large {
+    background: linear-gradient(135deg, #0066CC, #0052A3);
+    border-color: #0066CC;
+    color: white;
+    box-shadow: 0 12px 32px rgba(0, 102, 204, 0.25);
+}
+
+[data-theme="light"] .play-overlay {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+    border: 3px solid rgba(0, 102, 204, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    color: #0066CC;
+}
+
+[data-theme="light"] .project-card:hover .play-overlay {
+    background: linear-gradient(135deg, #0066CC, #0052A3);
+    border-color: #0066CC;
+    color: white;
+    box-shadow: 0 6px 20px rgba(0, 102, 204, 0.2);
+}
+
+[data-theme="light"] .cta-button {
+    background: linear-gradient(135deg, #0066CC, #0052A3);
+    box-shadow: 0 8px 24px rgba(0, 102, 204, 0.25);
+}
+
+[data-theme="light"] .cta-button:hover {
+    background: linear-gradient(135deg, #0052A3, #003d7a);
+    box-shadow: 0 12px 32px rgba(0, 102, 204, 0.35);
+}
+
+[data-theme="light"] .category-overlay {
+    background: linear-gradient(135deg, rgba(0, 102, 204, 0.95), rgba(0, 82, 163, 0.95));
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
 }
 
 /* Scanline pattern for About section */
@@ -1386,6 +1513,35 @@ body {
     50% {
         background-position: 100% 50%;
     }
+}
+
+/* Light Theme Contact Section - Cool Blue Dark Background */
+[data-theme="light"] .contact {
+    background: linear-gradient(
+        135deg,
+        #0f172a 0%,
+        #1e3a8a 25%,
+        #1e40af 50%,
+        #1e3a8a 75%,
+        #0f172a 100%
+    );
+}
+
+[data-theme="light"] .contact h2 {
+    color: #ffffff;
+}
+
+[data-theme="light"] .contact-text {
+    color: #cbd5e1;
+}
+
+[data-theme="light"] .contact .cta-button {
+    border: 2px solid #60a5fa;
+}
+
+[data-theme="light"] .contact .cta-button:hover {
+    background: rgba(96, 165, 250, 0.1);
+    border-color: #93c5fd;
 }
 
 .contact-text {
