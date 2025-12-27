@@ -988,6 +988,94 @@ body {
     color: #60a5fa;
 }
 
+/* ========================================
+   NUCLEAR OPTION: Override ALL Pink in Light Mode
+   ======================================== */
+
+/* Hero Section - Gradient Text */
+[data-theme="light"] .gradient-text {
+    background: linear-gradient(90deg, #0066CC 25%, #0088CC 50%, #0052A3 75%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: none;
+}
+
+[data-theme="light"] .hero-title {
+    filter: none;
+}
+
+/* Film Strips */
+[data-theme="light"] .film-strip {
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 102, 204, 0.03) 0px,
+        rgba(0, 102, 204, 0.03) 15px,
+        transparent 15px,
+        transparent 20px
+    );
+    border-left: 8px solid rgba(0, 102, 204, 0.05);
+    border-right: 8px solid rgba(0, 102, 204, 0.05);
+}
+
+/* Project Cards - All Pink Borders/Glows */
+[data-theme="light"] .project-card {
+    border: 2px solid rgba(0, 102, 204, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .project-card:hover {
+    border-color: rgba(0, 102, 204, 0.4);
+    box-shadow: 0 8px 24px rgba(0, 102, 204, 0.15);
+}
+
+[data-theme="light"] .project-card h3 {
+    background: rgba(0, 0, 0, 0.02);
+    border-top: 1px solid rgba(0, 102, 204, 0.1);
+}
+
+[data-theme="light"] .project-card:hover h3 {
+    color: #0066CC;
+    background: rgba(0, 102, 204, 0.05);
+    border-top-color: #0066CC;
+}
+
+/* Section Titles */
+[data-theme="light"] .section-title::after {
+    background: linear-gradient(180deg, #0066CC, #0052A3);
+    box-shadow: 0 0 15px rgba(0, 102, 204, 0.3);
+}
+
+/* Magnetic Button / CTA - Remove ALL pink glows */
+[data-theme="light"] .magnetic-button,
+[data-theme="light"] .button-glow {
+    box-shadow: none;
+}
+
+[data-theme="light"] .cta-button,
+[data-theme="light"] .magnetic-button {
+    animation: none;
+}
+
+/* About Section Scanlines */
+[data-theme="light"] .about::before,
+[data-theme="light"] .about::after {
+    display: none;
+}
+
+/* Hover Accents */
+[data-theme="light"] .clickable-name:hover {
+    color: #0066CC;
+    text-shadow: 0 0 15px rgba(0, 102, 204, 0.4);
+}
+
+[data-theme="light"] .nav-links a::after {
+    background: #0066CC;
+}
+
+[data-theme="light"] .social-icons a:hover {
+    color: #0066CC;
+}
+
 /* Scanline pattern for About section */
 .about::before {
     content: '';
