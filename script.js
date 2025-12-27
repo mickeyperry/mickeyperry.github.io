@@ -1,5 +1,55 @@
 // Smooth scroll animations
 document.addEventListener('DOMContentLoaded', () => {
+    // Theme Toggle Functionality
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.querySelector('.theme-icon');
+    const htmlElement = document.documentElement;
+
+    // Check for saved theme preference or default to 'dark'
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    htmlElement.setAttribute('data-theme', currentTheme);
+    updateThemeIcon(currentTheme);
+
+    // Theme toggle click handler
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+
+            // Update navbar background for current scroll position
+            updateNavbarForTheme(newTheme);
+        });
+    }
+
+    function updateThemeIcon(theme) {
+        if (themeIcon) {
+            themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
+        }
+    }
+
+    function updateNavbarForTheme(theme) {
+        const navbar = document.querySelector('.navbar');
+        const currentScroll = window.pageYOffset;
+
+        if (theme === 'light') {
+            if (currentScroll > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.9)';
+            }
+        } else {
+            if (currentScroll > 100) {
+                navbar.style.background = 'rgba(10, 10, 26, 0.95)';
+            } else {
+                navbar.style.background = 'rgba(10, 10, 26, 0.85)';
+            }
+        }
+    }
+
     // Custom cursor removed - was distracting
 
     // Intersection Observer for fade-in animations - DISABLED ON MOBILE
@@ -40,12 +90,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
+        const theme = htmlElement.getAttribute('data-theme');
 
         if (currentScroll > 100) {
-            navbar.style.background = 'rgba(10, 10, 26, 0.95)';
-            navbar.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+            if (theme === 'light') {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.background = 'rgba(10, 10, 26, 0.95)';
+                navbar.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+            }
         } else {
-            navbar.style.background = 'rgba(10, 10, 26, 0.85)';
+            if (theme === 'light') {
+                navbar.style.background = 'rgba(255, 255, 255, 0.9)';
+            } else {
+                navbar.style.background = 'rgba(10, 10, 26, 0.85)';
+            }
             navbar.style.boxShadow = 'none';
         }
 
