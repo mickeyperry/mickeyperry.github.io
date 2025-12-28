@@ -287,8 +287,18 @@ body {
 }
 
 .theme-icon {
-    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: transform 0.5s ease;
+}
+
+.theme-icon svg {
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover .theme-icon svg {
+    transform: scale(1.1);
 }
 
 .theme-toggle:active .theme-icon {
