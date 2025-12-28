@@ -1094,6 +1094,47 @@ body {
     color: #0066CC;
 }
 
+/* Light Theme - Video Modal Popup */
+[data-theme="light"] .modal {
+    background-color: rgba(255, 255, 255, 0.98);
+}
+
+[data-theme="light"] .modal-video-container {
+    border: 1px solid rgba(0, 102, 204, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .video-info-panel {
+    background: linear-gradient(135deg, rgba(0, 102, 204, 0.05), rgba(0, 136, 204, 0.05));
+    border: 1px solid rgba(0, 102, 204, 0.15);
+    backdrop-filter: blur(20px);
+}
+
+[data-theme="light"] .info-title {
+    color: #1a1a1a;
+}
+
+[data-theme="light"] .info-text {
+    color: #4a5568;
+}
+
+[data-theme="light"] .close-modal {
+    color: #1a1a1a;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+[data-theme="light"] .close-modal:hover {
+    color: #0066CC;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
+}
+
 /* Scanline pattern for About section */
 .about::before {
     content: '';
