@@ -871,6 +871,22 @@ body {
     display: none;
 }
 
+/* Light Theme - FIX SHOWREEL VIDEO CONTAINER PINK GLOW */
+[data-theme="light"] .video-container {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    border: 2px solid rgba(0, 102, 204, 0.2);
+    animation: none;
+}
+
+[data-theme="light"] .video-container:hover {
+    box-shadow: 0 20px 50px rgba(0, 102, 204, 0.2);
+    border-color: rgba(0, 102, 204, 0.4);
+}
+
+[data-theme="light"] .hero-subtitle .highlight::after {
+    background: linear-gradient(90deg, #0066CC, #0088CC);
+}
+
 /* Light Theme - Remove ALL glows and use clean blue styling */
 [data-theme="light"] .play-overlay-large {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.9));
@@ -903,11 +919,13 @@ body {
 [data-theme="light"] .cta-button {
     background: linear-gradient(135deg, #0066CC, #0052A3);
     box-shadow: 0 8px 24px rgba(0, 102, 204, 0.25);
+    color: white;
 }
 
 [data-theme="light"] .cta-button:hover {
     background: linear-gradient(135deg, #0052A3, #003d7a);
     box-shadow: 0 12px 32px rgba(0, 102, 204, 0.35);
+    color: white;
 }
 
 [data-theme="light"] .category-overlay {
