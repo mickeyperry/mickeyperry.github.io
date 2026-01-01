@@ -82,8 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }, observerOptions);
 
-        // Observe all sections
-        document.querySelectorAll('section').forEach(section => {
+        // Observe all sections except hero (reel should stay visible)
+        document.querySelectorAll('section:not(.hero)').forEach(section => {
             section.classList.add('fade-in');
             observer.observe(section);
         });
@@ -335,15 +335,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Subtle parallax effect to hero section
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const hero = document.querySelector('.hero-content');
-        if (hero && scrolled < 600) {
-            hero.style.transform = `translateY(${scrolled * 0.2}px)`;
-            hero.style.opacity = 1 - scrolled / 800;
-        }
-    });
+    // COMPLETELY DISABLED - Testing if this is causing the fade
+    // window.addEventListener('scroll', () => {
+    //     const scrolled = window.pageYOffset;
+    //     const hero = document.querySelector('.hero-content');
+    //     if (hero) {
+    //         if (scrolled < 600) {
+    //             hero.style.transform = `translateY(${scrolled * 0.2}px)`;
+    //         }
+    //         hero.style.opacity = 1; // ALWAYS keep visible regardless of scroll position
+    //     }
+    // });
 
     // Enhanced parallax effect with mouse movement AND scroll direction
     const projectsSection = document.querySelector('.projects');
