@@ -2237,7 +2237,7 @@ body.shaking {
     animation: shake 0.5s;
 }
 
-/* Notification toast */
+/* Notification toast - OPTIMIZED for instant response */
 .notification {
     position: fixed;
     top: 20px;
@@ -2252,7 +2252,7 @@ body.shaking {
     box-shadow: 0 10px 40px rgba(255, 0, 110, 0.4), 0 0 60px rgba(255, 0, 110, 0.3);
     z-index: 10001;
     opacity: 0;
-    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     text-align: center;
     max-width: 90vw;
     backdrop-filter: blur(10px);
@@ -2261,6 +2261,11 @@ body.shaking {
 .notification.show {
     transform: translateX(-50%) translateY(0);
     opacity: 1;
+}
+
+[data-theme="light"] .notification {
+    background: linear-gradient(135deg, #0066CC, #0052A3);
+    box-shadow: 0 10px 40px rgba(0, 102, 204, 0.3), 0 0 40px rgba(0, 102, 204, 0.2);
 }
 
 /* Ripple effect */

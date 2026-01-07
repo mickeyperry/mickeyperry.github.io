@@ -769,21 +769,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Show notification
+    // Show notification (optimized for snappy response)
     function showNotification(message) {
         const notification = document.createElement('div');
         notification.className = 'notification';
         notification.textContent = message;
         document.body.appendChild(notification);
 
-        // Trigger animation
-        setTimeout(() => notification.classList.add('show'), 10);
+        // Trigger animation immediately
+        requestAnimationFrame(() => {
+            notification.classList.add('show');
+        });
 
-        // Remove after 3 seconds
+        // Remove after 2 seconds (snappier!)
         setTimeout(() => {
             notification.classList.remove('show');
-            setTimeout(() => notification.remove(), 300);
-        }, 3000);
+            setTimeout(() => notification.remove(), 250);
+        }, 2000);
     }
 
     // Movie/Animation themed emojis for name explosion
@@ -963,12 +965,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // PRELOAD audio files for instant playback (no delay!)
+    const failSound = new Audio('rnd_fail.wav');
+    failSound.volume = 0.6;
+    failSound.preload = 'auto';
+
+    const successSound = new Audio('rnd_okay.wav');
+    successSound.volume = 0.6;
+    successSound.preload = 'auto';
+
     // Avatar click - play fail sound (After Effects render fail sound!)
     const avatarImage = document.getElementById('avatarImage');
     if (avatarImage) {
         avatarImage.addEventListener('click', () => {
-            const failSound = new Audio('rnd_fail.wav');
-            failSound.volume = 0.6;
+            // Reset and play immediately for instant response
+            failSound.currentTime = 0;
             failSound.play().catch(err => console.log('Audio play failed:', err));
 
             // Add shake animation
@@ -977,7 +988,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 avatarImage.style.animation = '';
             }, 500);
 
-            showNotification('💥 RENDER FAILED! 💥');
+            // Show notification slightly after sound starts
+            setTimeout(() => {
+                showNotification('💥 RENDER FAILED! 💥');
+            }, 100);
         });
     }
 
@@ -985,11 +999,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoImage = document.getElementById('logoImage');
     if (logoImage) {
         logoImage.addEventListener('click', () => {
-            const successSound = new Audio('rnd_okay.wav');
-            successSound.volume = 0.6;
+            // Reset and play immediately for instant response
+            successSound.currentTime = 0;
             successSound.play().catch(err => console.log('Audio play failed:', err));
 
-            showNotification('✅ RENDER SUCCESSFUL! ✅');
+            // Show notification slightly after sound starts
+            setTimeout(() => {
+                showNotification('✅ RENDER SUCCESSFUL! ✅');
+            }, 100);
         });
     }
 
