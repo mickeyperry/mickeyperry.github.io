@@ -876,8 +876,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Screen shake effect
     function shakeScreen() {
-        document.body.classList.add('shaking');
-        setTimeout(() => document.body.classList.remove('shaking'), 500);
+        const sw = document.getElementById('shake-wrapper');
+        if (sw) sw.classList.add('shaking');
+        setTimeout(() => { if (sw) sw.classList.remove('shaking'); }, 500);
     }
 
     // Confetti explosion for extra celebration
@@ -930,7 +931,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const nameElement = document.getElementById('name-explosion');
     if (nameElement) {
         let clickCount = 0;
+        let lastExplosionTime = 0;
         nameElement.addEventListener('click', (e) => {
+            const now = Date.now();
+            if (now - lastExplosionTime < 350) return;
+            lastExplosionTime = now;
             const rect = nameElement.getBoundingClientRect();
             const x = rect.left + rect.width / 2;
             const y = rect.top + rect.height / 2;
@@ -974,13 +979,43 @@ document.addEventListener('DOMContentLoaded', () => {
     successSound.volume = 0.6;
     successSound.preload = 'auto';
 
+    // Mobile: preload via Web Audio API on first touch for zero-delay playback
+    let failBuffer = null;
+    let successBuffer = null;
+    document.addEventListener('touchstart', function mobileAudioUnlock() {
+        document.removeEventListener('touchstart', mobileAudioUnlock);
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        Promise.all([
+            fetch('rnd_fail.wav').then(r => r.arrayBuffer()).then(buf => audioCtx.decodeAudioData(buf)),
+            fetch('rnd_okay.wav').then(r => r.arrayBuffer()).then(buf => audioCtx.decodeAudioData(buf))
+        ]).then(([fail, success]) => {
+            failBuffer = fail;
+            successBuffer = success;
+        }).catch(() => {});
+    }, { once: true });
+
+    function playAudioBuffer(buffer) {
+        if (!audioCtx || !buffer) return false;
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const source = audioCtx.createBufferSource();
+        const gain = audioCtx.createGain();
+        gain.gain.value = 0.6;
+        source.buffer = buffer;
+        source.connect(gain);
+        gain.connect(audioCtx.destination);
+        source.start(0);
+        return true;
+    }
+
     // Avatar click - play fail sound (After Effects render fail sound!)
     const avatarImage = document.getElementById('avatarImage');
     if (avatarImage) {
         avatarImage.addEventListener('click', () => {
-            // Reset and play immediately for instant response
-            failSound.currentTime = 0;
-            failSound.play().catch(err => console.log('Audio play failed:', err));
+            if (!playAudioBuffer(failBuffer)) {
+                failSound.currentTime = 0;
+                failSound.play().catch(err => console.log('Audio play failed:', err));
+            }
 
             // Add shake animation
             avatarImage.style.animation = 'shake 0.5s';
@@ -999,9 +1034,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoImage = document.getElementById('logoImage');
     if (logoImage) {
         logoImage.addEventListener('click', () => {
-            // Reset and play immediately for instant response
-            successSound.currentTime = 0;
-            successSound.play().catch(err => console.log('Audio play failed:', err));
+            if (!playAudioBuffer(successBuffer)) {
+                successSound.currentTime = 0;
+                successSound.play().catch(err => console.log('Audio play failed:', err));
+            }
 
             // Show notification slightly after sound starts
             setTimeout(() => {
