@@ -2233,7 +2233,7 @@ footer {
     will-change: transform, opacity;
 }
 
-body.shaking {
+#shake-wrapper.shaking {
     animation: shake 0.5s;
 }
 
