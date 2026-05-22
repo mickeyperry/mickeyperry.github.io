@@ -1,5 +1,14 @@
 // Smooth scroll animations
 document.addEventListener('DOMContentLoaded', () => {
+    function escapeHTML(str) {
+        return String(str ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
     // Theme Toggle Functionality
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.querySelector('.theme-icon');
@@ -144,14 +153,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Build HTML with bold category and role on separate lines
             let html = '';
-            if (video.category) html += `<strong>Category:</strong> ${video.category}`;
+            if (video.category) html += `<strong>Category:</strong> ${escapeHTML(video.category)}`;
             if (video.role) {
                 if (html) html += '<br>';
-                html += `<strong>Role:</strong> ${video.role}`;
+                html += `<strong>Role:</strong> ${escapeHTML(video.role)}`;
             }
             if (video.description) {
                 if (html) html += '<br><br>';
-                html += video.description;
+                html += escapeHTML(video.description);
             }
 
             infoText.innerHTML = html;
@@ -1117,44 +1126,15 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCustomVideos();
     });
 
-    // Admin password hash (SHA-256 of your password)
-    // To change password: run in console: await hashPassword('yourNewPassword')
-    const ADMIN_PASSWORD_HASH = '5fc2482af9db782afc95c7d7ee76128aad20bd7e0f0ba3c996ec7d81f151e533';
-    let isAuthenticated = sessionStorage.getItem('adminAuth') === 'true';
-
-    // Hash password using SHA-256
-    async function hashPassword(password) {
-        const msgBuffer = new TextEncoder().encode(password);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        return hashHex;
-    }
-
-    // Open admin panel with password check
-    adminToggle.addEventListener('click', async () => {
-        console.log('Admin button clicked'); // Debug log
-
-        // Check if already authenticated in this session
-        if (!isAuthenticated) {
-            const password = prompt('Enter admin password:');
-            if (!password) return;
-
-            const passwordHash = await hashPassword(password);
-            if (passwordHash !== ADMIN_PASSWORD_HASH) {
-                showNotification('❌ Incorrect password');
-                return;
-            }
-            // Store authentication for this session
-            sessionStorage.setItem('adminAuth', 'true');
-            isAuthenticated = true;
-            showNotification('✅ Access granted!');
-        }
-
+    // Admin panel — call window.openAdmin() from browser console to open
+    function openAdminPanel() {
         adminPanel.classList.add('active');
         document.body.style.overflow = 'hidden';
         renderVideoList();
-    });
+    }
+
+    window.openAdmin = openAdminPanel;
+    adminToggle.addEventListener('click', openAdminPanel);
 
     // Close admin panel
     closeAdmin.addEventListener('click', () => {
@@ -1253,7 +1233,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Try to auto-save to GitHub Gist
         try {
             const gistId = localStorage.getItem('gistId');
-            const gistToken = localStorage.getItem('gistToken');
+            const gistToken = sessionStorage.getItem('gistToken');
 
             if (gistId && gistToken) {
                 const response = await fetch(`https://api.github.com/gists/${gistId}`, {
@@ -1371,16 +1351,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         videoListContainer.innerHTML = customVideos.map((video, index) => `
-            <div class="video-item" draggable="true" data-index="${index}" data-video-id="${video.id}">
+            <div class="video-item" draggable="true" data-index="${index}" data-video-id="${escapeHTML(video.id)}">
                 <div class="video-item-info">
-                    <strong>📋 ${video.name || video.category || 'Untitled'}</strong>
-                    <span>Category: ${video.category || '—'}</span>
-                    <span>Role: ${video.role || '—'}</span>
-                    <span style="font-size: 0.85rem; opacity: 0.7;">ID: ${video.id}</span>
+                    <strong>📋 ${escapeHTML(video.name || video.category || 'Untitled')}</strong>
+                    <span>Category: ${escapeHTML(video.category || '—')}</span>
+                    <span>Role: ${escapeHTML(video.role || '—')}</span>
+                    <span style="font-size: 0.85rem; opacity: 0.7;">ID: ${escapeHTML(video.id)}</span>
                 </div>
                 <div class="video-item-actions">
-                    <button onclick="window.editVideoById('${video.id}')" class="edit-btn">✏️ Edit</button>
-                    <button onclick="window.removeVideoById('${video.id}')" class="remove-btn">🗑️ Remove</button>
+                    <button onclick="window.editVideoById('${escapeHTML(video.id)}')" class="edit-btn">✏️ Edit</button>
+                    <button onclick="window.removeVideoById('${escapeHTML(video.id)}')" class="remove-btn">🗑️ Remove</button>
                 </div>
             </div>
         `).join('');
@@ -1485,11 +1465,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             card.innerHTML = `
                 <div class="project-image">
-                    <img src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg" alt="${video.name || video.category}" loading="eager">
+                    <img src="https://img.youtube.com/vi/${escapeHTML(video.id)}/hqdefault.jpg" alt="${escapeHTML(video.name || video.category)}" loading="eager">
                     <div class="play-overlay">▶</div>
-                    <div class="category-overlay">${video.category || 'Uncategorized'}</div>
+                    <div class="category-overlay">${escapeHTML(video.category || 'Uncategorized')}</div>
                 </div>
-                <h3>${video.name || video.category}</h3>
+                <h3>${escapeHTML(video.name || video.category)}</h3>
             `;
 
             // Add to grid at the TOP (insert as first child)

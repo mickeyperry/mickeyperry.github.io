@@ -1,3 +1,7 @@
+# Admin/setup pages — keep local only, not public
+setup.html
+sync-videos.html
+
 # Backup folders
 bg*/
 bu*/
