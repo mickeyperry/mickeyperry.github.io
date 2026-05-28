@@ -111,27 +111,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
-        const theme = htmlElement.getAttribute('data-theme');
-
-        if (currentScroll > 100) {
-            if (theme === 'light') {
-                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-                navbar.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
-            } else {
-                navbar.style.background = 'rgba(10, 10, 26, 0.95)';
-                navbar.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
-            }
-        } else {
-            if (theme === 'light') {
-                navbar.style.background = 'rgba(255, 255, 255, 0.9)';
-            } else {
-                navbar.style.background = 'rgba(10, 10, 26, 0.85)';
-            }
-            navbar.style.boxShadow = 'none';
-        }
-
+        navbar.classList.toggle('scrolled', currentScroll > 100);
         lastScroll = currentScroll;
-    });
+    }, { passive: true });
 
     // Video Modal handlers
     const modal = document.getElementById('video-modal');
