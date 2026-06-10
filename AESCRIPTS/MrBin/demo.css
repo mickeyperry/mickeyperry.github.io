@@ -1,8 +1,8 @@
 /* Bin Sorter page — demo stage + emoji logo (extends shared style.css) */
 
-.hero-logo-emoji {
-    font-size: 72px;
-    line-height: 1;
+.hero-logo-mrbin {
+    width: 96px;
+    height: 96px;
     margin-bottom: 14px;
     filter: drop-shadow(0 0 22px rgba(255, 0, 200, 0.55));
     animation: logoBob 4s ease-in-out infinite;
