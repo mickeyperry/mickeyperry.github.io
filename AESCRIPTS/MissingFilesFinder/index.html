@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Missing Files Finder — find &amp; relink missing footage in After Effects</title>
+    <meta name="description" content="Missing Files Finder scans your After Effects project for missing footage, finds the files anywhere on your machine in milliseconds using Everything search, and relinks them — one click. Free extension by Mickey Perry." />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Missing Files Finder — find &amp; relink missing footage in After Effects" />
+    <meta property="og:description" content="Color bars again? Scan, find anywhere on your machine in milliseconds, relink all. PSD layer-aware. Free & open source." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mickeyperry.github.io/AESCRIPTS/MissingFilesFinder/" />
+
+    <link rel="icon" type="image/png" href="../../favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="demo.css" />
+</head>
+<body>
+
+    <!-- Ambient background -->
+    <div class="bg-grid"></div>
+    <div class="film-strip"></div>
+    <div class="film-strip"></div>
+    <div class="film-strip"></div>
+
+    <!-- ============ Nav ============ -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-home">
+                <a class="nav-name" href="https://mickeyperry.github.io/">MICKEY PERRY</a>
+                <span class="nav-crumb">/ <a href="../">AESCRIPTS</a> / Missing Files Finder</span>
+            </div>
+            <div class="nav-links">
+                <a href="#install">Install</a>
+                <a href="#features">Features</a>
+                <a href="https://github.com/MickeyAeScripts/MissingFilesFinderAE" target="_blank" rel="noopener" class="nav-gh" title="View on GitHub">
+                    <svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============ Hero ============ -->
+    <header class="hero">
+        <div class="container">
+
+            <div class="hero-logo-emoji" aria-hidden="true">🔎</div>
+
+            <h1 class="hero-title gradient-text">MISSING FILES FINDER</h1>
+            <p class="hero-tagline">stop hunting footage. start finding it.</p>
+
+            <p class="hero-subtitle">
+                Color bars again? This <span class="highlight">After Effects</span> panel scans your project for
+                missing footage, finds the files <strong>anywhere on your machine in milliseconds</strong>
+                (powered by Everything search) and relinks them — <strong>one click</strong>.
+                Even PSDs with layers.
+            </p>
+
+            <!-- Relink demo -->
+            <div class="demo-stage" aria-hidden="true">
+                <div class="stage-glow"></div>
+                <div class="panel-mock">
+                    <div class="panel-titlebar">Missing Files Finder <span id="demoStatus" class="demo-status">3 missing</span></div>
+                    <div class="mrow" data-i="0"><span class="fname">🎬 broll_city_02.mov</span><span class="badge miss">⚠ missing</span></div>
+                    <div class="mrow" data-i="1"><span class="fname">🎨 logo_v2.psd</span><span class="badge miss">⚠ missing</span></div>
+                    <div class="mrow" data-i="2"><span class="fname">🎵 music_bed.wav</span><span class="badge miss">⚠ missing</span></div>
+                    <div class="scan-sweep" id="scanSweep"></div>
+                </div>
+            </div>
+
+            <div class="hero-actions">
+                <a class="cta-button" href="https://github.com/MickeyAeScripts/MissingFilesFinderAE/releases/latest/download/MissingFilesFinderAE_v3.zip">
+                    <span class="button-text">⬇&nbsp; Download Missing Files Finder</span>
+                </a>
+                <a class="ghost-button" href="https://github.com/MickeyAeScripts/MissingFilesFinderAE" target="_blank" rel="noopener">View on GitHub</a>
+            </div>
+            <p class="hero-meta mono">Free &amp; open source · Windows · After Effects CC 2018+</p>
+        </div>
+    </header>
+
+    <main>
+        <!-- ============ Install ============ -->
+        <section id="install" class="section">
+            <div class="container">
+                <h2 class="section-title">Install in 4 steps</h2>
+                <p class="section-lead">The installer handles everything — panel, registry, Everything setup. For real.</p>
+
+                <div class="steps">
+                    <div class="step-card">
+                        <div class="step-num">1</div>
+                        <h3>Download &amp; extract</h3>
+                        <p>Grab the <a href="https://github.com/MickeyAeScripts/MissingFilesFinderAE/releases/latest/download/MissingFilesFinderAE_v3.zip">latest release</a> and extract the ZIP anywhere.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">2</div>
+                        <h3>Run <code>install.bat</code> as admin</h3>
+                        <p>Right-click → <em>Run as administrator</em>. It installs the panel, enables it, and sets up Everything for you.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">3</div>
+                        <h3>Restart After Effects</h3>
+                        <p>Open it from <code>Window&nbsp;&gt;&nbsp;Extensions&nbsp;&gt;&nbsp;Missing&nbsp;Files&nbsp;Finder</code>.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">4</div>
+                        <h3>Scan &amp; relink</h3>
+                        <p>Select your missing items, hit <strong>SCAN</strong>, then <strong>RELINK ALL</strong>. That's the whole job.</p>
+                    </div>
+                </div>
+
+                <div class="note-card">
+                    <span class="note-icon">💡</span>
+                    <p>The magic is <a href="https://www.voidtools.com/" target="_blank" rel="noopener">Everything by voidtools</a> —
+                    a free tool that indexes your whole machine and finds any file in milliseconds. The installer downloads and
+                    configures it automatically (or uses your existing copy).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ How it works ============ -->
+        <section id="how" class="section">
+            <div class="container">
+                <h2 class="section-title">How it works</h2>
+                <div class="flow">
+                    <div class="flow-item">
+                        <span class="flow-emoji">🩻</span>
+                        <h3>Scan</h3>
+                        <p>One click finds every missing footage item in your project.</p>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">
+                        <span class="flow-emoji">⚡</span>
+                        <h3>Find — in milliseconds</h3>
+                        <p>Everything searches your entire machine instantly. Single match? Auto-selected. Multiple? You pick.</p>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">
+                        <span class="flow-emoji">🔗</span>
+                        <h3>Relink all</h3>
+                        <p>One button relinks everything it matched — optionally copying files into your project folder first.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ Features ============ -->
+        <section id="features" class="section">
+            <div class="container">
+                <h2 class="section-title">Why it slaps</h2>
+                <div class="features">
+                    <div class="feature-card">
+                        <span class="feature-emoji">⚡</span>
+                        <h3>Millisecond search</h3>
+                        <p>Powered by Everything's index of your whole machine — no folder guessing, no "search subfolders" coffee breaks.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">🔗</span>
+                        <h3>Relink All</h3>
+                        <p>Every uniquely-matched file relinks in one click. Multiple candidates? Pick from a list, done.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">🎨</span>
+                        <h3>PSD layer-aware</h3>
+                        <p>Relinking a PSD normally nukes your layer references. This panel preserves them (via AutoHotkey automation).</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">📦</span>
+                        <h3>Copy on relink</h3>
+                        <p>Optionally copy found files into your project folder while relinking — consolidate as you fix.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">🖤</span>
+                        <h3>Native dark UI</h3>
+                        <p>Sits in After Effects like it was born there — same pink-purple family as TikTalk and Bin Sorter.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">🆓</span>
+                        <h3>Free, forever</h3>
+                        <p>Open source. Finding your own files shouldn't be a subscription.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ Requirements ============ -->
+        <section id="reqs" class="section">
+            <div class="container">
+                <h2 class="section-title">Requirements</h2>
+                <ul class="req-list">
+                    <li><span class="req-check">✓</span> Windows <span class="req-note">— macOS not supported (Everything is Windows-only)</span></li>
+                    <li><span class="req-check">✓</span> After Effects CC 2018 (v15) or newer</li>
+                    <li><span class="req-check">✓</span> Everything by voidtools <span class="req-note">— free; the installer sets it up automatically</span></li>
+                    <li><span class="req-check">✓</span> AutoHotkey v2 <span class="req-note">— optional, only for PSD layer relinking</span></li>
+                </ul>
+
+                <div class="final-cta">
+                    <a class="cta-button" href="https://github.com/MickeyAeScripts/MissingFilesFinderAE/releases/latest/download/MissingFilesFinderAE_v3.zip">
+                        <span class="button-text">⬇&nbsp; Get Missing Files Finder</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ============ Footer ============ -->
+    <footer class="footer">
+        <p>Made by <a href="https://mickeyperry.github.io/">MICKEY PERRY</a> · more free tools at <a href="../">AESCRIPTS</a></p>
+    </footer>
+
+    <script>
+        // Missing → scanning → relinked, on loop
+        (function () {
+            var rows = document.querySelectorAll('.mrow .badge');
+            var sweep = document.getElementById('scanSweep');
+            var status = document.getElementById('demoStatus');
+
+            function reset() {
+                status.textContent = '3 missing';
+                status.className = 'demo-status';
+                rows.forEach(function (b) {
+                    b.className = 'badge miss';
+                    b.innerHTML = '⚠ missing';
+                });
+            }
+
+            function cycle() {
+                reset();
+                setTimeout(function () {
+                    status.textContent = 'scanning…';
+                    sweep.classList.add('run');
+                }, 900);
+                setTimeout(function () {
+                    sweep.classList.remove('run');
+                    status.textContent = 'all relinked ✓';
+                    status.className = 'demo-status ok';
+                    rows.forEach(function (b, i) {
+                        setTimeout(function () {
+                            b.className = 'badge ok';
+                            b.innerHTML = '✓ relinked';
+                        }, i * 220);
+                    });
+                }, 2100);
+            }
+
+            cycle();
+            setInterval(cycle, 4600);
+        })();
+
+        window.addEventListener('scroll', function () {
+            document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 30);
+        });
+    </script>
+</body>
+</html>
