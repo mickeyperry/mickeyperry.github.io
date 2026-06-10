@@ -164,16 +164,20 @@ code {
 }
 
 .nav-name {
+    color: var(--text-primary);
     font-family: var(--font-display);
     font-weight: 700;
     letter-spacing: 0.5px;
     font-size: 1rem;
 }
 
-.nav-home:hover .nav-name {
+.nav-name:hover {
     color: var(--accent-pink);
     text-shadow: 0 0 20px var(--glow-pink);
 }
+
+.nav-crumb a { color: inherit; }
+.nav-crumb a:hover { color: var(--accent-pink); }
 
 .nav-crumb {
     font-family: var(--font-mono);
