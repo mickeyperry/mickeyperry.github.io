@@ -1,0 +1,125 @@
+/* Bin Sorter page — demo stage + emoji logo (extends shared style.css) */
+
+.hero-logo-emoji {
+    font-size: 72px;
+    line-height: 1;
+    margin-bottom: 14px;
+    filter: drop-shadow(0 0 22px rgba(255, 0, 200, 0.55));
+    animation: logoBob 4s ease-in-out infinite;
+}
+
+.demo-stage {
+    position: relative;
+    max-width: 720px;
+    min-height: 250px;
+    margin: 0 auto 2.4rem;
+    border-radius: var(--radius-lg);
+    border: 2px solid rgba(255, 0, 200, 0.3);
+    background:
+        radial-gradient(400px 200px at 50% 120%, rgba(123, 47, 247, 0.25), transparent 70%),
+        linear-gradient(160deg, #0d0d14 0%, #16162a 100%);
+    overflow: hidden;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        0 0 60px rgba(255, 0, 200, 0.18),
+        0 0 100px rgba(123, 47, 247, 0.1);
+    animation: breatheGlow 4s ease-in-out infinite;
+    padding: 18px 22px 22px;
+    text-align: left;
+}
+
+.panel-mock { position: relative; }
+
+.panel-titlebar {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+.panel-state {
+    position: absolute;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    pointer-events: none;
+}
+
+.panel-state.show {
+    position: relative;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.prow {
+    font-family: var(--font-mono);
+    font-size: 0.92rem;
+    color: var(--text-primary);
+    padding: 4px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.prow:nth-child(odd) { background: rgba(255, 255, 255, 0.025); }
+
+.prow.bin {
+    color: #fff;
+    font-weight: 600;
+    background: rgba(255, 0, 200, 0.08);
+    border: 1px solid rgba(255, 0, 200, 0.18);
+    margin-top: 5px;
+}
+
+.prow.sub { padding-left: 30px; color: var(--text-secondary); }
+
+.prow .count {
+    display: inline-block;
+    font-size: 0.7rem;
+    background: var(--grad-tt);
+    color: #fff;
+    border-radius: 20px;
+    padding: 0 8px;
+    margin-left: 8px;
+    vertical-align: 1px;
+}
+
+.sort-flash {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.4);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 2.2rem;
+    letter-spacing: 2px;
+    color: #fff;
+    background: var(--grad-tt);
+    border-radius: 60px;
+    padding: 14px 44px;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 18px 55px rgba(255, 0, 200, 0.55);
+    transition: none;
+}
+
+.sort-flash.zap {
+    animation: sortZap 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes sortZap {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+    35% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+    75% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1.05); }
+}
+
+@media (max-width: 720px) {
+    .prow { font-size: 0.8rem; }
+}
