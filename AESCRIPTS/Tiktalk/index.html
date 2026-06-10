@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TikTalk — TikTok-style auto-captions for After Effects</title>
+    <meta name="description" content="TikTalk transcribes your comp's voice-over locally (whisper.cpp — no cloud, no fees) and generates animated, word-accurate caption layers in one click. Free After Effects extension by Mickey Perry." />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="TikTalk — TikTok-style auto-captions for After Effects" />
+    <meta property="og:description" content="Local AI transcription → animated, word-accurate captions in one click. No cloud, no account, no per-minute fees." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mickeyperry.github.io/AESCRIPTS/Tiktalk/" />
+
+    <link rel="icon" type="image/png" href="../../favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- Ambient background -->
+    <div class="bg-grid"></div>
+    <div class="film-strip"></div>
+    <div class="film-strip"></div>
+    <div class="film-strip"></div>
+
+    <!-- ============ Nav ============ -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a class="nav-home" href="https://mickeyperry.github.io/">
+                <span class="nav-name">MICKEY PERRY</span>
+                <span class="nav-crumb">/ AESCRIPTS / TikTalk</span>
+            </a>
+            <div class="nav-links">
+                <a href="#install">Install</a>
+                <a href="#features">Features</a>
+                <a href="https://github.com/mickeyperry/TikTalk" target="_blank" rel="noopener" class="nav-gh" title="View on GitHub">
+                    <svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============ Hero ============ -->
+    <header class="hero">
+        <div class="container">
+
+            <svg class="hero-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                    <linearGradient id="lg" x1="0" y1="0" x2="32" y2="32">
+                        <stop offset="0" stop-color="#ff00c8"/>
+                        <stop offset="1" stop-color="#7b2ff7"/>
+                    </linearGradient>
+                </defs>
+                <path d="M16 3C9 3 3.5 7.8 3.5 13.8c0 3.4 1.8 6.4 4.6 8.4-.2 1.6-.9 3.6-2.4 5.2 2.8-.3 5-1.4 6.5-2.5 1.2.3 2.5.5 3.8.5 7 0 12.5-4.8 12.5-10.8S23 3 16 3z" fill="url(#lg)"/>
+                <text x="16" y="18" text-anchor="middle" font-family="Space Grotesk, Segoe UI, sans-serif" font-size="10" font-weight="800" fill="#fff">TT</text>
+            </svg>
+
+            <h1 class="hero-title gradient-text">TIKTALK</h1>
+            <p class="hero-tagline">keeping up with the kids, one caption at a time</p>
+
+            <p class="hero-subtitle">
+                <span class="highlight">TikTok-style auto-captions</span> for After Effects.<br/>
+                Transcribes your voice-over <strong>locally</strong> — no cloud, no account, no per-minute fees —
+                and generates animated, word-accurate caption layers in <strong>one click</strong>.
+            </p>
+
+            <!-- Live caption demo -->
+            <div class="caption-stage" aria-hidden="true">
+                <div class="stage-glow"></div>
+                <div id="captionDemo" class="caption-text"></div>
+            </div>
+
+            <div class="hero-actions">
+                <a class="cta-button" href="https://github.com/mickeyperry/TikTalk/archive/refs/heads/main.zip">
+                    <span class="button-text">⬇&nbsp; Download TikTalk</span>
+                </a>
+                <a class="ghost-button" href="https://github.com/mickeyperry/TikTalk" target="_blank" rel="noopener">View on GitHub</a>
+            </div>
+            <p class="hero-meta mono">Free &amp; open source · Windows · After Effects CC 2019+</p>
+        </div>
+    </header>
+
+    <main>
+        <!-- ============ Install ============ -->
+        <section id="install" class="section">
+            <div class="container">
+                <h2 class="section-title">Install in 4 steps</h2>
+                <p class="section-lead">No certificates, no ZXP wrestling, no admin rights. For real.</p>
+
+                <div class="steps">
+                    <div class="step-card">
+                        <div class="step-num">1</div>
+                        <h3>Download &amp; extract</h3>
+                        <p>Hit the <a href="https://github.com/mickeyperry/TikTalk/archive/refs/heads/main.zip">download button</a> and extract the ZIP anywhere you like.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">2</div>
+                        <h3>Double-click <code>install.bat</code></h3>
+                        <p>That's it. It registers the panel for your user — no admin needed.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">3</div>
+                        <h3>Restart After Effects</h3>
+                        <p>Open it from <code>Window&nbsp;&gt;&nbsp;Extensions&nbsp;&gt;&nbsp;TikTalk</code>.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">4</div>
+                        <h3>Download the engine</h3>
+                        <p>On first launch click <strong>Download engine</strong> in the panel — it fetches whisper + ffmpeg + a language model (~250&nbsp;MB, once).</p>
+                    </div>
+                </div>
+
+                <div class="note-card">
+                    <span class="note-icon">💡</span>
+                    <p>Prefer a <code>.zxp</code>? Run <code>setup\build_zxp.ps1</code> to build a self-signed <code>dist\TikTalk.zxp</code> and install it with any ZXP installer.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ How it works ============ -->
+        <section id="how" class="section">
+            <div class="container">
+                <h2 class="section-title">How it works</h2>
+                <div class="flow">
+                    <div class="flow-item">
+                        <span class="flow-emoji">🎙️</span>
+                        <h3>Transcribe</h3>
+                        <p>Select your audio/video layer and hit <em>Transcribe</em>. Word timings get snapped to the actual waveform.</p>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">
+                        <span class="flow-emoji">✏️</span>
+                        <h3>Edit &amp; style</h3>
+                        <p>The transcript is fully editable. Pick any font with the live-preview picker, set colors, stroke, position, reveal mode.</p>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">
+                        <span class="flow-emoji">✨</span>
+                        <h3>Generate Titles</h3>
+                        <p>One click → animated caption layers, auto-centered and auto-shrunk to stay in frame.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ Features ============ -->
+        <section id="features" class="section">
+            <div class="container">
+                <h2 class="section-title">Why it slaps</h2>
+                <div class="features">
+                    <div class="feature-card">
+                        <span class="feature-emoji">🧠</span>
+                        <h3>100% local AI</h3>
+                        <p>Powered by whisper.cpp on your machine. No cloud, no account, no per-minute fees — your audio never leaves your PC.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">⏱️</span>
+                        <h3>Word-accurate timing</h3>
+                        <p>Every word's keyframe lands exactly when it's spoken — timings snapped to the real waveform, nudgeable by ±1 frame.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">🎛️</span>
+                        <h3>One layer, hold keyframes</h3>
+                        <p>A single "Captions" text layer driven by hold keyframes — clean timeline, easy to restyle, auto-fit to frame.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">💥</span>
+                        <h3>Animation presets</h3>
+                        <p>Pop-in, word-by-word, bounce drop, typewriter and karaoke highlight — or drop in your own custom expression.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">🔤</span>
+                        <h3>Searchable font picker</h3>
+                        <p>Browse every font installed on your machine with live preview (AE 2024+ Font API).</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">🆓</span>
+                        <h3>Free, forever</h3>
+                        <p>Open source on GitHub. Captions that pass the vibe check, no cap.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ Requirements ============ -->
+        <section id="reqs" class="section">
+            <div class="container">
+                <h2 class="section-title">Requirements</h2>
+                <ul class="req-list">
+                    <li><span class="req-check">✓</span> Windows</li>
+                    <li><span class="req-check">✓</span> After Effects CC 2019 (16.0) or newer <span class="req-note">— font picker needs AE 2024+, everything else works on 2019+</span></li>
+                    <li><span class="req-check">✓</span> ~250 MB disk space for the local speech engine</li>
+                </ul>
+
+                <div class="final-cta">
+                    <a class="cta-button" href="https://github.com/mickeyperry/TikTalk/archive/refs/heads/main.zip">
+                        <span class="button-text">⬇&nbsp; Get TikTalk</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ============ Footer ============ -->
+    <footer class="footer">
+        <p>Made by <a href="https://mickeyperry.github.io/">MICKEY PERRY</a> · captions that pass the vibe check, no cap.</p>
+    </footer>
+
+    <script>
+        // TikTok-style caption demo — words pop in like the extension's "buildup" mode
+        (function () {
+            var phrases = [
+                ["AUTO", "CAPTIONS", "FOR", "AFTER&nbsp;EFFECTS"],
+                ["TRANSCRIBED", "LOCALLY", "ON", "YOUR&nbsp;PC"],
+                ["NO", "CLOUD.", "NO", "FEES."],
+                ["WORD", "ACCURATE", "KEYFRAMES"],
+                ["ONE", "CLICK.", "DONE.", "✨"],
+                ["NO", "CAP.", "JUST", "CAPTIONS."]
+            ];
+            var el = document.getElementById('captionDemo');
+            var p = 0;
+
+            function showPhrase() {
+                var words = phrases[p];
+                el.innerHTML = '';
+                words.forEach(function (w, i) {
+                    var span = document.createElement('span');
+                    span.className = 'cap-word' + (i === words.length - 1 ? ' accent' : '');
+                    span.innerHTML = w;
+                    span.style.animationDelay = (i * 0.18) + 's';
+                    el.appendChild(span);
+                });
+                p = (p + 1) % phrases.length;
+            }
+
+            showPhrase();
+            setInterval(showPhrase, 2600);
+        })();
+
+        // Navbar shadow on scroll
+        window.addEventListener('scroll', function () {
+            document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 30);
+        });
+    </script>
+</body>
+</html>
