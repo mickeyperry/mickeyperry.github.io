@@ -78,6 +78,69 @@
             letter-spacing: 0.5px;
         }
         .hub-hero { padding-bottom: 1.5rem; }
+        .group-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin: 0 0 1.4rem;
+            position: relative;
+            display: inline-block;
+            padding-left: 18px;
+        }
+        .group-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 65%;
+            background: linear-gradient(180deg, var(--tt-pink), var(--tt-purple));
+            border-radius: 10px;
+            box-shadow: 0 0 20px var(--glow-pink);
+        }
+        .script-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+        }
+        .script-card {
+            display: flex;
+            flex-direction: column;
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 1.3rem 1.3rem 1.1rem;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            color: var(--text-primary);
+        }
+        .script-card:hover {
+            border-color: rgba(255, 0, 200, 0.35);
+            transform: translateY(-4px);
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35), 0 0 26px rgba(255, 0, 200, 0.08);
+            color: var(--text-primary);
+        }
+        .script-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.15rem; }
+        .script-head .s-emoji { font-size: 1.3rem; }
+        .script-card h3 { font-size: 1.08rem; letter-spacing: 0.3px; }
+        .s-host {
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            letter-spacing: 1px;
+            color: var(--accent-cyan);
+            margin-bottom: 0.55rem;
+        }
+        .script-card p { color: var(--text-secondary); font-size: 0.86rem; flex: 1; line-height: 1.5; }
+        .s-go {
+            margin-top: 0.8rem;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.82rem;
+            color: var(--tt-pink);
+            letter-spacing: 0.5px;
+        }
     </style>
 </head>
 <body>
@@ -116,6 +179,7 @@
     <main>
         <section class="section" style="padding-top: 0;">
             <div class="container">
+                <h2 class="group-title">Extensions</h2>
                 <div class="tool-grid">
                     <a class="tool-card" href="Tiktalk/">
                         <div class="tool-emoji">💬</div>
@@ -142,6 +206,68 @@
                         <p>Color bars again? Scans your project for missing footage, finds the files anywhere on your machine
                         in milliseconds (Everything search) and relinks them — even PSDs with layers.</p>
                         <span class="tool-go">Check it out →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="padding-top: 1rem;">
+            <div class="container">
+                <h2 class="group-title">Scripts</h2>
+                <div class="script-grid">
+                    <a class="script-card" href="https://github.com/MickeyAeScripts/ae-randomizer" target="_blank" rel="noopener">
+                        <div class="script-head"><span class="s-emoji">🎲</span><h3>Randomizer</h3></div>
+                        <div class="s-host">CEP PANEL · AFTER EFFECTS</div>
+                        <p>Chaos, on tap. Randomizes position, rotation, scale &amp; opacity on selected layers — ranges, jitter or absolute modes, tidy single-step undo.</p>
+                        <span class="s-go">View on GitHub →</span>
+                    </a>
+                    <a class="script-card" href="https://github.com/MickeyAeScripts/FadeMixer" target="_blank" rel="noopener">
+                        <div class="script-head"><span class="s-emoji">🔊</span><h3>FadeMixer</h3></div>
+                        <div class="s-host">JSX SCRIPT · AFTER EFFECTS</div>
+                        <p>Adds a Stereo Mixer effect and fade-in/out keyframes to your selected layers. Custom durations, one undo.</p>
+                        <span class="s-go">View on GitHub →</span>
+                    </a>
+                    <a class="script-card" href="https://github.com/MickeyAeScripts/IsolateLayers" target="_blank" rel="noopener">
+                        <div class="script-head"><span class="s-emoji">🙈</span><h3>IsolateLayers</h3></div>
+                        <div class="s-host">JSX SCRIPT · AFTER EFFECTS</div>
+                        <p>Declutters the timeline: everything except your selected layers goes shy, master shy switch flips on. One click back.</p>
+                        <span class="s-go">View on GitHub →</span>
+                    </a>
+                    <a class="script-card" href="https://github.com/MickeyAeScripts/RenamePrecomp" target="_blank" rel="noopener">
+                        <div class="script-head"><span class="s-emoji">✏️</span><h3>RenamePrecomp</h3></div>
+                        <div class="s-host">JSX SCRIPT · AFTER EFFECTS</div>
+                        <p>Rename a precomp from anywhere — dialog pops pre-filled and updates the actual source everywhere it's used.</p>
+                        <span class="s-go">View on GitHub →</span>
+                    </a>
+                    <a class="script-card" href="https://github.com/MickeyAeScripts/SetFootageFPS" target="_blank" rel="noopener">
+                        <div class="script-head"><span class="s-emoji">🎞️</span><h3>SetFootageFPS</h3></div>
+                        <div class="s-host">JSX SCRIPT · AFTER EFFECTS</div>
+                        <p>Conform footage frame rates in bulk — select items, type the FPS, done. No digging through Interpret Footage dialogs.</p>
+                        <span class="s-go">View on GitHub →</span>
+                    </a>
+                    <a class="script-card" href="https://github.com/MickeyAeScripts/TheTrimmer" target="_blank" rel="noopener">
+                        <div class="script-head"><span class="s-emoji">✂️</span><h3>TheTrimmer</h3></div>
+                        <div class="s-host">JSX SCRIPT · AFTER EFFECTS</div>
+                        <p>Trims all selected layers to match the last-selected layer's in/out points. Sync layers to a cut in one click.</p>
+                        <span class="s-go">View on GitHub →</span>
+                    </a>
+                    <a class="script-card" href="https://github.com/MickeyAeScripts/OpenAepFolder" target="_blank" rel="noopener">
+                        <div class="script-head"><span class="s-emoji">📂</span><h3>OpenAepFolder</h3></div>
+                        <div class="s-host">JSX SCRIPT · AFTER EFFECTS</div>
+                        <p>Opens your project's folder in Explorer / Finder. Tiny, but you'll use it every day.</p>
+                        <span class="s-go">View on GitHub →</span>
+                    </a>
+                    <a class="script-card" href="https://github.com/MickeyAeScripts/AeMarkers" target="_blank" rel="noopener">
+                        <div class="script-head"><span class="s-emoji">📍</span><h3>AeMarkers</h3></div>
+                        <div class="s-host">JSX SCRIPT · AFTER EFFECTS</div>
+                        <p>Drops a marker at every selected layer's in-point, labeled with the layer's name. Instant timeline overview.</p>
+                        <span class="s-go">View on GitHub →</span>
+                    </a>
+                    <a class="script-card" href="https://github.com/MickeyAeScripts/after-effects-shotNumbers" target="_blank" rel="noopener">
+                        <div class="script-head"><span class="s-emoji">🔢</span><h3>ShotNumbers</h3></div>
+                        <div class="s-host">JSX SCRIPT · AFTER EFFECTS</div>
+                        <p>Builds a guide text layer with keyframed text that shows each shot's name exactly when it starts.</p>
+                        <span class="s-go">View on GitHub →</span>
                     </a>
                 </div>
             </div>
