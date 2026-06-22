@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Audio Switch — swap your sound device with one hotkey (Windows)</title>
+    <meta name="description" content="Audio Switch is a tiny Windows tray app that swaps your default audio output device from a global hotkey. One key, a clean picker, instant switch. Free, no install, by Mickey Perry." />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Audio Switch — swap your sound device with one hotkey" />
+    <meta property="og:description" content="A tiny Windows tray app that swaps your default audio output from a global hotkey. One key, a clean picker, instant switch. Free & standalone." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mickeyperry.github.io/AESCRIPTS/AudioSwitch/" />
+    <meta property="og:image" content="icon.png" />
+
+    <link rel="icon" type="image/png" href="../../favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- Ambient background -->
+    <div class="bg-grid"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+
+    <!-- ============ Nav ============ -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-home">
+                <a class="nav-name" href="https://mickeyperry.github.io/">MICKEY PERRY</a>
+                <span class="nav-crumb">/ <a href="../">AESCRIPTS</a> / Audio Switch</span>
+            </div>
+            <div class="nav-links">
+                <a href="#install">Install</a>
+                <a href="#features">Features</a>
+                <a href="https://github.com/mickeyperry/audio-switch" target="_blank" rel="noopener" class="nav-gh" title="View on GitHub">
+                    <svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============ Hero ============ -->
+    <header class="hero">
+        <div class="container">
+
+            <svg class="hero-logo" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                    <linearGradient id="as" x1="0" y1="0" x2="64" y2="64">
+                        <stop offset="0" stop-color="#ff00c8"/>
+                        <stop offset="1" stop-color="#7b2ff7"/>
+                    </linearGradient>
+                </defs>
+                <rect x="2" y="2" width="60" height="60" rx="15" fill="url(#as)"/>
+                <path d="M17 36v-2a15 15 0 0 1 30 0v2" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+                <rect x="13" y="34" width="11" height="20" rx="5" fill="#fff"/>
+                <rect x="40" y="34" width="11" height="20" rx="5" fill="#fff"/>
+            </svg>
+
+            <h1 class="hero-title gradient-text">AUDIO&nbsp;SWITCH</h1>
+            <p class="hero-tagline">swap your sound device with one hotkey</p>
+
+            <p class="hero-subtitle">
+                A tiny <span class="highlight">Windows</span> tray app that flips your default audio output —
+                headphones, speakers, monitor, whatever — from a <strong>global hotkey</strong>.
+                One key, a clean picker, <strong>instant switch</strong>. No Sound&nbsp;Settings safari.
+            </p>
+
+            <!-- Picker demo -->
+            <div class="demo-stage" aria-hidden="true">
+                <div class="demo-strip"></div>
+                <div class="demo-h">AUDIO SWITCH</div>
+                <div class="demo-sub">Pick your output device</div>
+
+                <div class="demo-card" data-i="0"><span class="ic">🎧</span> Headphones <span class="tick">✓</span></div>
+                <div class="demo-card" data-i="1"><span class="ic">🔊</span> Speakers <span class="tick">✓</span></div>
+                <div class="demo-card" data-i="2"><span class="ic">🖥️</span> DELL U3223QE <span class="tick">✓</span></div>
+
+                <div class="demo-hotkey">press <kbd>F12</kbd> anywhere →</div>
+                <div id="demoToast" class="demo-toast">Switched ✓</div>
+            </div>
+
+            <div class="hero-actions">
+                <a class="cta-button" href="https://github.com/mickeyperry/audio-switch/releases/latest/download/AudioSwitch.exe">
+                    <span class="button-text">⬇&nbsp; Download Audio Switch</span>
+                </a>
+                <a class="ghost-button" href="https://github.com/mickeyperry/audio-switch" target="_blank" rel="noopener">View on GitHub</a>
+            </div>
+            <p class="hero-meta mono">Free &amp; open source · Standalone single .exe · No install · Windows 10 &amp; 11</p>
+        </div>
+    </header>
+
+    <main>
+        <!-- ============ Install ============ -->
+        <section id="install" class="section">
+            <div class="container">
+                <h2 class="section-title">Up and running in 4 steps</h2>
+                <p class="section-lead">No installer, no admin rights, no AutoHotkey needed — it's one self-contained file.</p>
+
+                <div class="steps">
+                    <div class="step-card">
+                        <div class="step-num">1</div>
+                        <h3>Download <code>AudioSwitch.exe</code></h3>
+                        <p>Hit the <a href="https://github.com/mickeyperry/audio-switch/releases/latest/download/AudioSwitch.exe">download button</a>. One file, about 1&nbsp;MB — drop it anywhere you like.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">2</div>
+                        <h3>Double-click it</h3>
+                        <p>A headphone icon appears in your system tray. That's it — it's now listening for your shortcut.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">3</div>
+                        <h3>Press <kbd>F12</kbd></h3>
+                        <p>The picker pops up at your cursor. Don't like F12? Set your own combo in <strong>Settings</strong>.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">4</div>
+                        <h3>Click a device</h3>
+                        <p>Your default output switches instantly. Right-click the tray icon for Settings, About, or Exit.</p>
+                    </div>
+                </div>
+
+                <div class="note-card">
+                    <span class="note-icon">🚀</span>
+                    <p><strong>Want it always ready?</strong> Open <strong>Settings</strong> from the tray icon and tick
+                    <em>“Start automatically with Windows.”</em> Now your shortcut works from the moment you log in.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ How it works ============ -->
+        <section id="how" class="section">
+            <div class="container">
+                <h2 class="section-title">How it works</h2>
+                <div class="flow">
+                    <div class="flow-item">
+                        <span class="flow-emoji">⌨️</span>
+                        <h3>Hit your hotkey</h3>
+                        <p>A global shortcut (default <kbd>F12</kbd>) pops the picker over whatever you're doing — game, call, DAW, anything.</p>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">
+                        <span class="flow-emoji">🎛️</span>
+                        <h3>See your outputs</h3>
+                        <p>Every active output device, listed clean. No driver names, no duplicates, no Control Panel.</p>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">
+                        <span class="flow-emoji">⚡</span>
+                        <h3>Click → done</h3>
+                        <p>Windows' default output flips immediately. Sound follows you to the device you picked.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ Features ============ -->
+        <section id="features" class="section">
+            <div class="container">
+                <h2 class="section-title">Why it slaps</h2>
+                <div class="features">
+                    <div class="feature-card">
+                        <span class="feature-emoji">⌨️</span>
+                        <h3>One global hotkey</h3>
+                        <p>Switch outputs without leaving your game or call. The picker comes to you, on top of everything.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">🎚️</span>
+                        <h3>Your shortcut, your call</h3>
+                        <p>Rebind it to any combo — <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>S</kbd>, a spare function key, whatever fits your hands.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">🎧</span>
+                        <h3>Lives in the tray</h3>
+                        <p>A clean headphone icon sits quietly in your tray. Right-click for Settings, About, or a one-click Exit.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">📦</span>
+                        <h3>Truly standalone</h3>
+                        <p>One <code>.exe</code>. No installer, no AutoHotkey, no admin rights. Copy it to any Windows PC and run.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">🚀</span>
+                        <h3>Starts with Windows</h3>
+                        <p>Flip one switch and it's armed the second you log in — every day, no thinking about it.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">🆓</span>
+                        <h3>Free &amp; open source</h3>
+                        <p>MIT licensed. Another little tool that should just exist — take it, use it, share it.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ Requirements ============ -->
+        <section id="reqs" class="section">
+            <div class="container">
+                <h2 class="section-title">Requirements</h2>
+                <ul class="req-list">
+                    <li><span class="req-check">✓</span> Windows 10 or 11</li>
+                    <li><span class="req-check">✓</span> At least one audio output device (you've got that covered)</li>
+                    <li><span class="req-check">✓</span> About 10 seconds and one double-click</li>
+                </ul>
+
+                <div class="final-cta">
+                    <a class="cta-button" href="https://github.com/mickeyperry/audio-switch/releases/latest/download/AudioSwitch.exe">
+                        <span class="button-text">⬇&nbsp; Get Audio Switch</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ============ Footer ============ -->
+    <footer class="footer">
+        <p>Made by <a href="https://mickeyperry.github.io/">MICKEY PERRY</a> · more free tools at <a href="../">AESCRIPTS</a></p>
+    </footer>
+
+    <script>
+        // Cycle the picker demo: highlight a card, fire the toast, move on
+        (function () {
+            var cards = Array.prototype.slice.call(document.querySelectorAll('.demo-card'));
+            var toast = document.getElementById('demoToast');
+            var i = 0;
+            if (!cards.length) return;
+            function tick() {
+                cards.forEach(function (c) { c.classList.remove('is-active'); });
+                cards[i].classList.add('is-active');
+                toast.classList.add('show');
+                setTimeout(function () { toast.classList.remove('show'); }, 1300);
+                i = (i + 1) % cards.length;
+            }
+            tick();
+            setInterval(tick, 2200);
+        })();
+
+        window.addEventListener('scroll', function () {
+            document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 30);
+        });
+    </script>
+</body>
+</html>
