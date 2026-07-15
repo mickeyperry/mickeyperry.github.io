@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Whisper Captions — local AI captions for After Effects (Hebrew ready)</title>
+    <meta name="description" content="Whisper Captions transcribes your audio locally with faster-whisper and creates a timed caption text layer in After Effects. Full Hebrew/RTL support with the ivrit.ai model. Free extension by Mickey Perry." />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Whisper Captions — local AI captions for After Effects" />
+    <meta property="og:description" content="Local AI transcription → timed caption layers in one click. Full Hebrew/RTL support, GPU-accelerated, no cloud, no fees." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mickeyperry.github.io/AESCRIPTS/WhisperCaptions/" />
+
+    <link rel="icon" type="image/png" href="../../favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- Ambient background -->
+    <div class="bg-grid"></div>
+    <div class="film-strip"></div>
+    <div class="film-strip"></div>
+    <div class="film-strip"></div>
+
+    <!-- ============ Nav ============ -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-home">
+                <a class="nav-name" href="https://mickeyperry.github.io/">MICKEY PERRY</a>
+                <span class="nav-crumb">/ <a href="../">AESCRIPTS</a> / Whisper Captions</span>
+            </div>
+            <div class="nav-links">
+                <a href="#install">Install</a>
+                <a href="#features">Features</a>
+                <a href="https://github.com/mickeyperry/whisper-captions" target="_blank" rel="noopener" class="nav-gh" title="View on GitHub">
+                    <svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============ Hero ============ -->
+    <header class="hero">
+        <div class="container">
+
+            <svg class="hero-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                    <linearGradient id="lg" x1="0" y1="0" x2="32" y2="32">
+                        <stop offset="0" stop-color="#ff00c8"/>
+                        <stop offset="1" stop-color="#7b2ff7"/>
+                    </linearGradient>
+                </defs>
+                <path d="M16 2a5 5 0 0 0-5 5v9a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5z" fill="url(#lg)"/>
+                <path d="M6 14v2a10 10 0 0 0 20 0v-2" stroke="url(#lg)" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+                <line x1="16" y1="26" x2="16" y2="30" stroke="url(#lg)" stroke-width="2.4" stroke-linecap="round"/>
+                <line x1="11" y1="30" x2="21" y2="30" stroke="url(#lg)" stroke-width="2.4" stroke-linecap="round"/>
+            </svg>
+
+            <h1 class="hero-title gradient-text">WHISPER CAPTIONS</h1>
+            <p class="hero-tagline">your audio, subtitled — before the coffee gets cold</p>
+
+            <p class="hero-subtitle">
+                <span class="highlight">Local AI captions</span> for After Effects.<br/>
+                Transcribes the selected layer with <strong>faster-whisper</strong> — no cloud, no account, no fees —
+                and builds a clean, timed caption layer in <strong>one click</strong>.
+                Speaks <strong>Hebrew</strong> like a native (עברית ✓).
+            </p>
+
+            <!-- Live caption demo -->
+            <div class="caption-stage" aria-hidden="true">
+                <div class="stage-glow"></div>
+                <div id="captionDemo" class="caption-text"></div>
+            </div>
+
+            <div class="hero-actions">
+                <a class="cta-button" href="https://github.com/mickeyperry/whisper-captions/archive/refs/heads/main.zip">
+                    <span class="button-text">⬇&nbsp; Download Whisper Captions</span>
+                </a>
+                <a class="ghost-button" href="https://github.com/mickeyperry/whisper-captions" target="_blank" rel="noopener">View on GitHub</a>
+            </div>
+            <p class="hero-meta mono">Free &amp; open source · Windows · After Effects 2022+</p>
+        </div>
+    </header>
+
+    <main>
+        <!-- ============ Install ============ -->
+        <section id="install" class="section">
+            <div class="container">
+                <h2 class="section-title">Install in 3 steps</h2>
+                <p class="section-lead">One installer does everything — registry, panel, and its own Python. No admin rights.</p>
+
+                <div class="steps">
+                    <div class="step-card">
+                        <div class="step-num">1</div>
+                        <h3>Download &amp; extract</h3>
+                        <p>Hit the <a href="https://github.com/mickeyperry/whisper-captions/archive/refs/heads/main.zip">download button</a> and extract the ZIP anywhere you like.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">2</div>
+                        <h3>Double-click <code>install.bat</code></h3>
+                        <p>Registers the panel and sets up a self-contained Python environment. Got an NVIDIA GPU? It offers CUDA acceleration too.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">3</div>
+                        <h3>Restart After Effects</h3>
+                        <p>Open it from <code>Window&nbsp;&gt;&nbsp;Extensions&nbsp;&gt;&nbsp;Whisper&nbsp;Captions</code>. The first transcription downloads your chosen model (once).</p>
+                    </div>
+                </div>
+
+                <div class="note-card">
+                    <span class="note-icon">💡</span>
+                    <p>No Python on your machine? Run <code>winget install astral-sh.uv</code> once, then <code>install.bat</code> again — it handles the rest.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ How it works ============ -->
+        <section id="how" class="section">
+            <div class="container">
+                <h2 class="section-title">How it works</h2>
+                <div class="flow">
+                    <div class="flow-item">
+                        <span class="flow-emoji">🎙️</span>
+                        <h3>Select &amp; transcribe</h3>
+                        <p>Select the audio/video layer in your comp, pick a model &amp; language (or auto-detect) and hit <em>Transcribe</em>. Everything runs on your machine.</p>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">
+                        <span class="flow-emoji">✂️</span>
+                        <h3>Smart splitting</h3>
+                        <p>Set max characters per line and 1–3 lines. Long sentences split at natural boundaries, and a live preview shows exactly how captions will sit in your comp.</p>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">
+                        <span class="flow-emoji">✨</span>
+                        <h3>One keyframed layer</h3>
+                        <p>A single "Captions" text layer with Source Text keyframes — bottom-centered, drop-shadowed, and trivially easy to restyle.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ Features ============ -->
+        <section id="features" class="section">
+            <div class="container">
+                <h2 class="section-title">Why you'll like it</h2>
+                <div class="features">
+                    <div class="feature-card">
+                        <span class="feature-emoji">🧠</span>
+                        <h3>100% local AI</h3>
+                        <p>Powered by faster-whisper on your machine. No cloud, no account, no per-minute fees — your audio never leaves your PC.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">🇮🇱</span>
+                        <h3>Hebrew done right</h3>
+                        <p>Ships with the ivrit.ai Hebrew-tuned Whisper model in the picker, sets true right-to-left paragraph direction on the layer, and even previews in Hebrew.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">✂️</span>
+                        <h3>Smart caption splitting</h3>
+                        <p>Chars-per-line + max-lines controls with a live comp preview. Splits at sentences and clauses first, so captions read naturally.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">🎛️</span>
+                        <h3>One layer, clean timeline</h3>
+                        <p>All captions live on a single text layer as Source Text keyframes — restyle once, applies everywhere.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">⚡</span>
+                        <h3>GPU accelerated</h3>
+                        <p>NVIDIA GPU? Transcription runs on CUDA, several times faster than realtime. No GPU? Falls back to CPU automatically.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">🌍</span>
+                        <h3>99 languages</h3>
+                        <p>Whisper's full multilingual lineup with auto-detect — from English promos to Hebrew voice-overs to Japanese interviews.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ Requirements ============ -->
+        <section id="reqs" class="section">
+            <div class="container">
+                <h2 class="section-title">Requirements</h2>
+                <ul class="req-list">
+                    <li><span class="req-check">✓</span> Windows 10 / 11</li>
+                    <li><span class="req-check">✓</span> After Effects 2022 or newer <span class="req-note">— scripted RTL direction needs AE 2024+; for Hebrew also enable Preferences → Type → South Asian and Middle Eastern text engine</span></li>
+                    <li><span class="req-check">✓</span> Python or <a href="https://github.com/astral-sh/uv" target="_blank" rel="noopener">uv</a> <span class="req-note">— the installer sets up its own environment</span></li>
+                    <li><span class="req-check">✓</span> 150 MB – 3 GB disk per model <span class="req-note">— downloaded once, on first use</span></li>
+                </ul>
+
+                <div class="final-cta">
+                    <a class="cta-button" href="https://github.com/mickeyperry/whisper-captions/archive/refs/heads/main.zip">
+                        <span class="button-text">⬇&nbsp; Get Whisper Captions</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ============ Footer ============ -->
+    <footer class="footer">
+        <p>Made by <a href="https://mickeyperry.github.io/">MICKEY PERRY</a> · captions in any language, even right-to-left.</p>
+    </footer>
+
+    <script>
+        // Caption demo — cycles English and Hebrew phrases, RTL-aware
+        (function () {
+            var phrases = [
+                { words: ["LOCAL", "AI", "CAPTIONS", "FOR&nbsp;AE"], rtl: false },
+                { words: ["שלום", "גם", "עברית", "עובדת&nbsp;מצוין"], rtl: true },
+                { words: ["NO", "CLOUD.", "NO", "FEES."], rtl: false },
+                { words: ["כתוביות", "מדויקות", "בלחיצה", "אחת"], rtl: true },
+                { words: ["ONE", "CLICK.", "ONE", "LAYER.&nbsp;✨"], rtl: false },
+                { words: ["GPU", "POWERED.", "WHISPER", "SMART."], rtl: false }
+            ];
+            var el = document.getElementById('captionDemo');
+            var p = 0;
+
+            function showPhrase() {
+                var phrase = phrases[p];
+                el.innerHTML = '';
+                el.dir = phrase.rtl ? 'rtl' : 'ltr';
+                phrase.words.forEach(function (w, i) {
+                    var span = document.createElement('span');
+                    span.className = 'cap-word' + (i === phrase.words.length - 1 ? ' accent' : '');
+                    span.innerHTML = w;
+                    span.style.animationDelay = (i * 0.18) + 's';
+                    el.appendChild(span);
+                });
+                p = (p + 1) % phrases.length;
+            }
+
+            showPhrase();
+            setInterval(showPhrase, 2600);
+        })();
+
+        // Navbar shadow on scroll
+        window.addEventListener('scroll', function () {
+            document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 30);
+        });
+    </script>
+</body>
+</html>
