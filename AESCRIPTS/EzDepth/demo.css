@@ -1,0 +1,83 @@
+/* EzDepth page — hero emoji + depth-map demo stage (extends shared style.css) */
+
+.hero-logo-emoji {
+    font-size: 72px;
+    line-height: 1;
+    margin-bottom: 14px;
+    filter: drop-shadow(0 0 22px rgba(255, 0, 200, 0.55));
+    animation: logoBob 4s ease-in-out infinite;
+}
+
+.depth-stage {
+    position: relative;
+    width: min(560px, 92vw);
+    height: 220px;
+    margin: 2.2rem auto 1rem;
+    border-radius: var(--radius-md);
+    background: #0a0a10;
+    border: 1px solid var(--glass-border);
+    overflow: hidden;
+}
+
+.depth-scene {
+    position: absolute;
+    inset: 0;
+}
+
+.depth-tag {
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 1.5px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    background: rgba(255, 0, 200, 0.15);
+    color: var(--tt-pink);
+    border: 1px solid rgba(255, 0, 200, 0.3);
+    transition: all 0.6s ease;
+    z-index: 3;
+}
+
+.depth-stage.show-depth .depth-tag {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ddd;
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.d-obj {
+    position: absolute;
+    border-radius: 10px;
+    transition: background 0.8s ease, filter 0.8s ease;
+}
+
+.d-obj.d-far   { width: 46%; height: 30%; top: 12%;  left: 6%;  background: #6f2fd6; }
+.d-obj.d-mid   { width: 34%; height: 40%; top: 34%;  left: 40%; background: #ff3fb0; }
+.d-obj.d-near  { width: 26%; height: 52%; top: 40%;  left: 66%; background: #ffb020; }
+.d-obj.d-near2 { width: 18%; height: 24%; top: 66%;  left: 10%; background: #29e0d0; }
+
+.depth-stage.show-depth .d-obj.d-far   { background: #2a2a34; }
+.depth-stage.show-depth .d-obj.d-mid   { background: #6a6a78; }
+.depth-stage.show-depth .d-obj.d-near  { background: #c7c7d2; }
+.depth-stage.show-depth .d-obj.d-near2 { background: #efeff4; }
+
+.depth-scan {
+    position: absolute;
+    top: 0;
+    left: -20%;
+    width: 20%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+    pointer-events: none;
+    z-index: 2;
+    transition: left 0.9s ease;
+}
+
+.depth-stage.scanning .depth-scan {
+    left: 120%;
+}
+
+@media (max-width: 640px) {
+    .depth-stage { height: 160px; }
+}
