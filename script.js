@@ -654,10 +654,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const miniNextBtn = document.getElementById('miniNext');
     const marqueeText = document.getElementById('marqueeText');
 
+    const seekBar = document.getElementById('seekBar');
+    const seekCurrent = document.getElementById('seekCurrent');
+    const seekDuration = document.getElementById('seekDuration');
+
     let widget = null;
     let currentTrackIndex = 0;
     let isPlaying = false;
     let playlist = [];
+    let trackDuration = 0;   // ms
+    let isScrubbing = false; // don't fight the user while they drag
+
+    function formatTime(ms) {
+        if (!isFinite(ms) || ms < 0) ms = 0;
+        const total = Math.floor(ms / 1000);
+        return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, '0')}`;
+    }
+
+    // Paint the filled portion of the track (WebKit reads this var)
+    function paintSeek() {
+        if (seekBar) seekBar.style.setProperty('--seek-pct', (seekBar.value / 10) + '%');
+    }
+
+    function setTrackDuration(ms) {
+        trackDuration = ms || 0;
+        if (seekDuration) seekDuration.textContent = formatTime(trackDuration);
+        if (seekBar) seekBar.disabled = trackDuration <= 0;
+    }
 
     // Load SoundCloud Widget API
     const scScript = document.createElement('script');
@@ -687,6 +710,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 playlist = sounds;
                 if (playlist.length > 0) {
                     updateMarquee(playlist[0].title);
+                    setTrackDuration(playlist[0].duration);
                 }
             });
 
@@ -697,8 +721,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 widget.getCurrentSound(function(sound) {
                     if (sound) {
                         updateMarquee(sound.title);
+                        setTrackDuration(sound.duration);
                     }
                 });
+            });
+
+            // Drive the seek bar as the track plays
+            widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(e) {
+                if (isScrubbing || !seekBar) return;
+                // Fall back to relativePosition if we never got a duration
+                const pct = trackDuration > 0
+                    ? (e.currentPosition / trackDuration)
+                    : (e.relativePosition || 0);
+                seekBar.value = Math.round(Math.min(Math.max(pct, 0), 1) * 1000);
+                if (seekCurrent) seekCurrent.textContent = formatTime(e.currentPosition);
+                paintSeek();
             });
 
             widget.bind(SC.Widget.Events.PAUSE, function() {
@@ -740,6 +777,31 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!widget) return;
         widget.next();
     });
+
+    // Scrub through the current track
+    if (seekBar) {
+        const beginScrub = () => { isScrubbing = true; };
+
+        // Pointer/keyboard drag: preview the time without committing yet
+        seekBar.addEventListener('pointerdown', beginScrub);
+        seekBar.addEventListener('keydown', beginScrub);
+
+        seekBar.addEventListener('input', () => {
+            isScrubbing = true;
+            if (seekCurrent && trackDuration > 0) {
+                seekCurrent.textContent = formatTime((seekBar.value / 1000) * trackDuration);
+            }
+            paintSeek();
+        });
+
+        // Commit on release (fires for mouse, touch and keyboard)
+        seekBar.addEventListener('change', () => {
+            if (widget && trackDuration > 0) {
+                widget.seekTo(Math.round((seekBar.value / 1000) * trackDuration));
+            }
+            isScrubbing = false;
+        });
+    }
 
     // Cool copy email notification
     const emailLink = document.querySelector('.email-link');
@@ -1460,7 +1522,59 @@ document.addEventListener('DOMContentLoaded', () => {
             // Add event listeners for the new card
             addCardEventListeners(card);
         });
+
+        applyWorksLimit();
     }
+
+    // ---- "Show more work" collapsing ----
+    const WORKS_LIMIT_DESKTOP = 12;
+    const WORKS_LIMIT_MOBILE = 5;
+    const worksToggle = document.getElementById('worksToggle');
+    let worksExpanded = false;
+
+    function worksLimit() {
+        return window.innerWidth <= 768 ? WORKS_LIMIT_MOBILE : WORKS_LIMIT_DESKTOP;
+    }
+
+    function applyWorksLimit() {
+        if (!projectsGrid) return;
+
+        const cards = Array.from(projectsGrid.querySelectorAll('.project-card'));
+        const limit = worksLimit();
+        const collapsible = cards.length > limit;
+
+        cards.forEach((card, i) => {
+            card.classList.toggle('project-card--hidden', collapsible && !worksExpanded && i >= limit);
+        });
+
+        if (!worksToggle) return;
+        worksToggle.hidden = !collapsible;
+        if (!collapsible) return;
+        worksToggle.textContent = worksExpanded
+            ? 'Show less ↑'
+            : `Show more work — ${cards.length - limit} more →`;
+    }
+
+    if (worksToggle) {
+        worksToggle.addEventListener('click', () => {
+            worksExpanded = !worksExpanded;
+            applyWorksLimit();
+            playPopSound();
+
+            // Collapsing from far down the grid would strand the user below
+            // the section, so bring them back to the top of it.
+            if (!worksExpanded) {
+                document.getElementById('projects').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
+
+    // Limit differs between mobile and desktop — recheck on resize
+    let worksResizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(worksResizeTimer);
+        worksResizeTimer = setTimeout(applyWorksLimit, 150);
+    });
 
     // Add event listeners to a card
     function addCardEventListeners(card) {
