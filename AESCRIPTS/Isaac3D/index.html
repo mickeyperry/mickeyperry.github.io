@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Isaac3D — real 3D physics panel for After Effects</title>
+    <meta name="description" content="Isaac3D is a free After Effects panel that simulates your layers in real 3D — including glb/obj/fbx model layers — previews live, and bakes the result to Position XYZ and Rotation XYZ keyframes. By Mickey Perry." />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Isaac3D — real 3D physics panel for After Effects" />
+    <meta property="og:description" content="Newton does flat. Isaac does depth. Cubes topple, spheres roll, 3D models tumble with their real mesh — then bake XYZ keyframes. Free & open source." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mickeyperry.github.io/AESCRIPTS/Isaac3D/" />
+    <meta property="og:image" content="https://mickeyperry.github.io/AESCRIPTS/Isaac3D/demo.gif" />
+
+    <link rel="icon" type="image/png" href="../../favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="demo.css" />
+</head>
+<body>
+
+    <!-- Ambient background -->
+    <div class="bg-grid"></div>
+    <div class="film-strip"></div>
+    <div class="film-strip"></div>
+    <div class="film-strip"></div>
+
+    <!-- ============ Nav ============ -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-home">
+                <a class="nav-name" href="https://mickeyperry.github.io/">MICKEY PERRY</a>
+                <span class="nav-crumb">/ <a href="../">AESCRIPTS</a> / Isaac3D</span>
+            </div>
+            <div class="nav-links">
+                <a href="#install">Install</a>
+                <a href="#features">Features</a>
+                <a href="https://github.com/mickeyperry/isaac3d" target="_blank" rel="noopener" class="nav-gh" title="View on GitHub">
+                    <svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============ Hero ============ -->
+    <header class="hero">
+        <div class="container">
+
+            <div class="hero-logo-emoji" aria-hidden="true">🧊</div>
+
+            <h1 class="hero-title gradient-text">ISAAC3D</h1>
+            <p class="hero-tagline">Newton does flat. Isaac does depth.</p>
+
+            <p class="hero-subtitle">
+                A dockable panel that runs your layers through a <strong>real 3D rigid-body engine</strong>
+                (cannon-es). Cubes topple, spheres roll off ramps, things fall <em>past</em> each other in Z — and
+                <span class="highlight">3D model layers</span> (glb, obj, fbx) collide with their
+                <span class="highlight">actual mesh</span>. Happy with the tumble? <strong>Bake</strong> writes
+                Position X/Y/Z &amp; Rotation X/Y/Z keyframes onto the layers. One undo takes it all back.
+            </p>
+
+            <!-- Panel demo -->
+            <div class="phys-stage" aria-label="Isaac3D panel demo">
+                <video class="phys-video" autoplay muted loop playsinline poster="poster.png">
+                    <source src="demo.mp4" type="video/mp4">
+                    <img src="demo.gif" alt="The Isaac3D panel: a mushroom, a bush and a teapot model tumbling onto the floor as wireframes, front and side view." />
+                </video>
+                <div class="phys-drops" aria-hidden="true">
+                    <span class="drop d1"></span><span class="drop d2"></span><span class="drop d3"></span>
+                    <span class="drop d4"></span><span class="drop d5"></span>
+                </div>
+            </div>
+            <p class="phys-caption mono">glb · obj · fbx models as real collision hulls · front / top / side / 3D views &nbsp;—&nbsp; <a href="demo.gif" target="_blank" rel="noopener">open the GIF</a></p>
+
+            <div class="hero-actions">
+                <a class="cta-button" href="https://github.com/mickeyperry/isaac3d/archive/refs/heads/main.zip">
+                    <span class="button-text">⬇&nbsp; Download Isaac3D</span>
+                </a>
+                <a class="ghost-button" href="https://github.com/mickeyperry/isaac3d" target="_blank" rel="noopener">View on GitHub</a>
+            </div>
+            <p class="hero-meta mono">Free &amp; open source · Windows · After Effects 2020+ (model layers: 2025+) · CEP panel · cannon-es inside</p>
+        </div>
+    </header>
+
+    <main>
+        <!-- ============ Install ============ -->
+        <section id="install" class="section">
+            <div class="container">
+                <h2 class="section-title">Install in 3 steps</h2>
+                <p class="section-lead">No Python, no server, no GPU — it's all JavaScript inside the panel.</p>
+
+                <div class="steps">
+                    <div class="step-card">
+                        <div class="step-num">1</div>
+                        <h3>Download &amp; extract</h3>
+                        <p>Hit the <a href="https://github.com/mickeyperry/isaac3d/archive/refs/heads/main.zip">download button</a> and extract the ZIP anywhere you like.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">2</div>
+                        <h3>Double-click <code>install.bat</code></h3>
+                        <p>Enables unsigned panels for your user and copies Isaac3D into the CEP extensions folder. Takes a second.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">3</div>
+                        <h3>Restart After Effects</h3>
+                        <p>Open it from <code>Window&nbsp;&gt;&nbsp;Extensions&nbsp;&gt;&nbsp;Isaac3D</code> — it docks like any native panel.</p>
+                    </div>
+                </div>
+
+                <div class="note-card">
+                    <span class="note-icon">💡</span>
+                    <p>Changed your mind? <code>uninstall.bat</code> removes it cleanly. Nothing else on your machine is touched.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ How it works ============ -->
+        <section id="how" class="section">
+            <div class="container">
+                <h2 class="section-title">How it works</h2>
+                <div class="flow">
+                    <div class="flow-item">
+                        <span class="flow-emoji">🧱</span>
+                        <h3>Pick your bodies</h3>
+                        <p>Select layers (or take the whole comp). Each becomes <em>dynamic</em>, <em>static</em>, <em>kinematic</em> or <em>dormant</em> — a box, a cube, a sphere, or the convex hull of a real 3D model.</p>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">
+                        <span class="flow-emoji">🎚️</span>
+                        <h3>Slide, watch, repeat</h3>
+                        <p>Gravity, bounce, friction, six walls with depth, blasts — every change re-simulates instantly. Watch it from the front, top, side, or orbit around it in 3D.</p>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">
+                        <span class="flow-emoji">🔥</span>
+                        <h3>Bake</h3>
+                        <p>Position X/Y/Z &amp; Rotation X/Y/Z keyframes land on the real layers, in one undo group. From there it's just After Effects.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ Features ============ -->
+        <section id="features" class="section">
+            <div class="container">
+                <h2 class="section-title">Why it's useful</h2>
+                <div class="features">
+                    <div class="feature-card">
+                        <span class="feature-emoji">🍄</span>
+                        <h3>Real 3D models</h3>
+                        <p>glb, gltf, obj and fbx layers are parsed from the file: true depth, a convex hull for collisions and a wireframe of the actual mesh in the preview. AE only tells you the width and height — Isaac3D reads the rest.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">🧱</span>
+                        <h3>Cubes that are cubes</h3>
+                        <p>A square shape layer can be a crate, not a card. Flat layers get a thickness, spheres roll, and 2D layers can stay locked to the comp plane when you want the classic look.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">👁️</span>
+                        <h3>Four views</h3>
+                        <p>Front, top and side orthographic views plus an orbitable perspective. Scrub it, sync the AE playhead, click a body to tune it — or click to place a blast in 3D.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">💥</span>
+                        <h3>Blasts</h3>
+                        <p>Radial impulses at any frame and any 3D point — strength, lift, spin, radius, falloff. Blow the stack apart on the beat.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">🕹️</span>
+                        <h3>Kinematic layers</h3>
+                        <p>Already animated a paddle or a wrecking ball? Mark it <em>kinematic</em> and it follows your keyframes while shoving everything else around — in all three axes.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-emoji">↩️</span>
+                        <h3>Honest keyframes, one undo</h3>
+                        <p>No expressions, no hidden effects. Plain Position and Rotation keys on every axis that you can edit, ease, or delete — and a single Ctrl+Z if you hate it.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ Requirements ============ -->
+        <section id="reqs" class="section">
+            <div class="container">
+                <h2 class="section-title">Requirements</h2>
+                <ul class="req-list">
+                    <li><span class="req-check">✓</span> Windows 10 / 11 <span class="req-note">— the panel itself is cross-platform; a Mac installer is on the list</span></li>
+                    <li><span class="req-check">✓</span> After Effects 2020 (17.0) or newer <span class="req-note">— 3D model layers need After Effects 2025+</span></li>
+                    <li><span class="req-check">✓</span> That's it <span class="req-note">— no Python, no GPU, no downloads, no account</span></li>
+                </ul>
+
+                <div class="final-cta">
+                    <a class="cta-button" href="https://github.com/mickeyperry/isaac3d/archive/refs/heads/main.zip">
+                        <span class="button-text">⬇&nbsp; Get Isaac3D</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ============ Footer ============ -->
+    <footer class="footer">
+        <p>Made by <a href="https://mickeyperry.github.io/">MICKEY PERRY</a> · more free tools at <a href="../">AESCRIPTS</a></p>
+    </footer>
+
+    <script>
+        // Navbar shadow on scroll
+        window.addEventListener('scroll', function () {
+            document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 30);
+        });
+    </script>
+</body>
+</html>
